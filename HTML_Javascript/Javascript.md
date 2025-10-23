@@ -215,6 +215,7 @@ console.log(vString, vNumber, vBoolean, vNull, vUndefined);
 
 # 4. 비교
 - 논리연산자 : && (AND), || (OR), ! (NOT) (false, 0, "", null, undefined, NaN)
+- 삼항연산자 : (조건) ? true일 때 실행 : false일 때 실행
 - 산술연산자 : + - * / % **(제곱)
 - 할당연산자 : =
 - 대입연산자 : += -= *= /= %=
