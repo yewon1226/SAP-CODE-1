@@ -607,6 +607,7 @@ let obj = {
   }
 };
 obj.sleep();                    // "잠자기"
+obj.sleep;                      // True
 ```
 </br>
 
