@@ -526,6 +526,8 @@ let person = [
 ### filter()
 - 배열에서 조건에 맞는 데이터들을 새로운 배열로 리턴
 - 원본 배열은 변하지 않음
+- 이외에도 .map() .reduce() .some()가 있음
+
 ```java
 배열.filter(function(요소) {
   return 조건;
