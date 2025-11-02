@@ -1,0 +1,72 @@
+### 실습 1 : 입력창의 값을 버튼 클릭 시 아래 텍스트에 표시하는 SAPUI5 기본 이벤트 처리 실습
+- 버튼 클릭 시 입력창의 내용을 화면의 텍스트로 표시하는 간단한 SAPUI5 UI 이벤트 처리 기능을 개발함
+</br>
+<img width="426" height="216" alt="image" src="https://github.com/user-attachments/assets/52829eec-7190-4fa0-88e7-bebeb3fdb3df" />
+</br>
+</br>
+</br>
+
+- View1.view.xml
+```html
+<mvc:View controllerName="ycl2project01.controller.View1"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:l="sap.ui.layout"
+    xmlns:core="sap.ui.core"
+    xmlns="sap.m">  <!-- 태그 사이에 주석을 달면 오류 -->
+    <Page id="page" title="{i18n>title}">
+        <content> <!-- content는 sap.m.page의 Aggregation -->
+            <l:VerticalLayout>
+                <!-- 이런 객체 하나하나를 "Control" 이라고 부름 -->
+                <Input id="idInput1" value="Hello world" />
+                <Button id="idButton" text="OK" press="onClick" />
+                <Text id="idText" text="안녕하세요" />
+            </l:VerticalLayout>
+        </content>
+    </Page>
+</mvc:View>
+```
+</br>
+
+- View1.controller.js
+```java
+sap.ui.define([
+    "sap/ui/core/mvc/Controller",
+    "sap/m/Button"
+], 
+// 위 배열에서 가져온 js파일들을 순서대로 파라미터에 넣어줌
+(Controller, Button) => {    
+    // 파라미터 변수들을 아래 로직에서 사용할 수 있음
+    // 파라미터 순서 맞추기
+    "use strict";   // 엄격모드 Javascript
+
+    return Controller.extend("ycl2project01.controller.View1", {
+        count : 10,
+        onInit: function() {
+        },
+        onPress: function() {
+            // this는 controller를 가리킴
+            // .getView()는 Controller와 연결된 view를 가져옴
+            // .byId(<아이디>)는 해당 아이디에 맞는 Control을 가져옴
+            let oButton = this.getView().byId("idButton");
+
+            // sap.m.Button의 Method인 .setText()를 활용하여
+            // 버튼 클릭시 버튼의 Text 속성을 변경
+            oButton.setText("Yes");
+        },
+        onClick: function() {
+            // 버튼 클릭(press) 시 동작하는 이벤트 함수
+            // 구현 내용
+            // Input에 사용자가 입력한 값을 얻어, Text에 적용하고자 함
+            //  1. sap.m.Input에 담긴 값을 가져온다.
+            //  2. sap.m.Text에 해당 값을 적용한다.
+            //  3. 가져온 값을 sap.m.Text 객체의 text 속성에 적용
+
+            //  테스트: input 값 변경 후 버튼 클릭 시 Text 값도 동일하게 변경
+            let oInput = this.getView().byId("idInput1");
+            let sValue = oInput.getValue();
+            let oText = this.getView().byId("idText");
+            oText.setText(sValue);
+        }
+    });
+});
+```
