@@ -1,6 +1,7 @@
 ### VizFrame 차트 실습 (도넛 + 라인/막대 차트)
 - sap.viz.ui5 라이브러리를 활용해 도넛 차트(View XML) 와 라인/막대 차트(Controller 동적 생성) 를 각각 구성하여, JSONModel 데이터 바인딩 + FlattenedDataset + FeedItem 으로 시각화하는 실습
-<img width="790" height="861" alt="image" src="https://github.com/user-attachments/assets/a403f395-ed9a-42d2-a5de-88ad66f0d705" />
+<img width="608" height="662" alt="image" src="https://github.com/user-attachments/assets/2151530c-35b8-4233-899d-726a498f1b11" />
+
 
 - Main.controller.js
 ```java
