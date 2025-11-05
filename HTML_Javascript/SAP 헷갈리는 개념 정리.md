@@ -60,7 +60,7 @@ onSelectionChange: function(oEvent) {
 ```
 </br>
 
-### source parameter 비교
+### < source parameter 비교 >
 | 상황 | 이벤트 | 가져올 방법 | 이유 |
 |------|---------|--------------|------|
 | 버튼 클릭 | `press` | `getSource()` | 버튼이 이벤트 주체, 데이터는 없음 |
@@ -71,7 +71,7 @@ onSelectionChange: function(oEvent) {
 ---
 </br>
 
-### 이벤트별 `oEvent` 구조 비교표
+### < 이벤트별 `oEvent` 구조 비교표 >
 | 이벤트 | 주요 파라미터 | `getSource()` 결과 | `getParameter()` 예시 | 설명 |
 |--------|----------------|--------------------|-----------------------|------|
 | `press` | (없음) | 버튼(`sap.m.Button`) | X | 버튼이 직접 이벤트 발생 |
