@@ -112,7 +112,7 @@ sap.ui.define([
 
             <!-- 화면에 그려지는 feeditem 추가 -->
             <viz:feeds>
-            <!-- 보통 막대차트나 라인차트 같은 차트는 -> CategoryAxis/valueAxis -->
+            <!-- 보통 막대차트나 라인차트 같은 차트는 -> categoryAxis/valueAxis -->
             <!-- 도넛차트나 파이차티 같은 경우 -> color/size -->
                 <viz.feeds:FeedItem uid="color" type="Dimension" values="이름" />
                 <viz.feeds:FeedItem uid="size" type="Measure" values="숫자" />
