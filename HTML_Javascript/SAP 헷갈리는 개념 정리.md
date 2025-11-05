@@ -13,12 +13,10 @@
 1) `this.byId("idName")`
    - View에 있는 컨트롤(ID로 직접 찾기)
    - 버튼, 테이블, 입력창 등 가져올 때
-</br>
 
 2) `oEvent.getSource()`
    - 지금 이벤트를 일으킨 놈
    - “지금 누른 버튼” 같은 거
-</br>
 
 3) `oEvent.getSource().getParent()`
    - 이벤트 일으킨 놈의 상위 컨트롤
