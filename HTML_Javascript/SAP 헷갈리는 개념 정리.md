@@ -58,3 +58,26 @@ onSelectionChange: function(oEvent) {
   console.log(oData.name); // "강호동"
 }
 ```
+</br>
+
+### source parameter 비교
+```java
+| 상황 | 이벤트 | 가져올 방법 | 이유 |
+|------|---------|--------------|------|
+| 버튼 클릭 | `press` | `getSource()` | 버튼이 이벤트 주체, 데이터는 없음 |
+| 테이블 Row 선택 | `selectionChange` | `getParameters().listItem` | 선택한 행(Row)이 파라미터에 포함됨 |
+| Input 입력 | `change` | `getParameter("value")` | 입력값이 이벤트 파라미터로 전달됨 |
+| 차트 클릭 | `selectData` | `getParameter("data")` | 선택된 데이터 묶음이 파라미터로 전달됨 |
+
+```
+</br>
+
+### 이벤트별 `oEvent` 구조 비교표
+```java
+| 이벤트 | 주요 파라미터 | `getSource()` 결과 | `getParameter()` 예시 | 설명 |
+|--------|----------------|--------------------|-----------------------|------|
+| `press` | (없음) | 버튼(`sap.m.Button`) | X | 버튼이 직접 이벤트 발생 |
+| `selectionChange` | `listItem` | 테이블(`sap.m.Table`) | `oEvent.getParameters().listItem` | 선택된 Row 객체 포함 |
+| `change` | `value` | 인풋(`sap.m.Input`) | `oEvent.getParameter("value")` | 입력된 텍스트 값 전달 |
+| `selectData` | `data` | 차트(`sap.viz.ui5.controls.VizFrame`) | `oEvent.getParameter("data")` | 선택된 데이터 묶음 배열로 전달 |
+```
