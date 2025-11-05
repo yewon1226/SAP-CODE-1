@@ -7,3 +7,111 @@
 </br>
 
 <img width="646" height="125" alt="image" src="https://github.com/user-attachments/assets/bbd996ac-09cd-440e-a490-1df645dc6cd9" />
+</br>
+</br>
+</br>
+
+- Main.controller.js
+```java
+sap.ui.define([
+    "sap/ui/core/mvc/Controller",
+    "sap/ui/model/json/JSONModel"
+], (Controller, JSONModel) => {
+    "use strict";
+
+    return Controller.extend("practice01.controller.Main", {
+        onInit() {
+            let oModel = this.getOwnerComponent().getModel();
+            this.getView().setModel(oModel, "local");
+
+            let AirptoModel = new JSONModel({data : []});
+            this.getView().setModel(AirptoModel, "aModel");
+        },
+        onSelectionChange: function() {
+            let table = this.byId("idesConListSet");  
+            let oRow = table.getSelectedItem();     
+            let oBindingContext = oRow.getBindingContext("local");
+            let sPath = oBindingContext.getPath();
+
+            let oModel = this.getView().getModel("local");
+            let inputCarrid = oModel.getProperty(sPath).Carrid;  
+            let inputConnid = oModel.getProperty(sPath).Connid; 
+            
+            let aModel = this.getView().getModel("aModel");
+            
+            oModel.read(`/esConDetailSet(Carrid='${inputCarrid}',Connid='${inputConnid}')`, {            
+                success: function(oReturn) {
+                    aModel.setProperty("/data", [{ Airpto: oReturn.Airpto }]);
+                },
+                error: function() {
+                    
+                }
+            });
+        }
+    });
+});
+```
+</br>
+
+- Main.view.xml
+```html
+<mvc:View controllerName="practice01.controller.Main"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m">
+    <Page id="page" title="{i18n>title}">
+        <Table id="idesConListSet"
+            inset="false"
+            mode="SingleSelectLeft"
+            selectionChange="onSelectionChange"
+            items="{local>/esConListSet}">
+            <columns>
+                <Column hAlign="Center">
+                    <Text text="Carrid" />
+                </Column>
+                <Column hAlign="Center">
+                    <Text text="Carrname" />
+                </Column>
+                <Column hAlign="Center">
+                    <Text text="Connid" />
+                </Column>
+                <Column hAlign="Center">
+                    <Text text="Cityfrom" />
+                </Column>
+                <Column hAlign="Center">
+                    <Text text="Cityto" />
+                </Column>
+            </columns>
+            <items>
+                <ColumnListItem vAlign="Middle">
+                    <cells>
+                        <Text text="{local>Carrid}" />
+                        <Text text="{local>Carrname}" />
+                        <Text text="{local>Connid}" />
+                        <Text text="{local>Cityfrom}" />
+                        <Text text="{local>Cityto}" />
+                    </cells>
+                </ColumnListItem>
+            </items>
+        </Table>
+
+        <Table id="idesConDetailSet"
+            inset="false"
+            mode="SingleSelectLeft"
+            selectionChange="onSelectionChange"
+            items="{aModel>/data}">
+            <columns>
+                <Column hAlign="Center">
+                    <Text text="Airpto" />
+                </Column>
+            </columns>
+            <items>
+                <ColumnListItem vAlign="Middle">
+                    <cells>
+                        <Text text="{aModel>Airpto}" />
+                    </cells>
+                </ColumnListItem>
+            </items>
+        </Table>
+    </Page>
+</mvc:View>
+```
