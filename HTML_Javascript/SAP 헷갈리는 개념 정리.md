@@ -3,11 +3,11 @@
 1) `oEvent.getSource()`
    - 이벤트를 일으킨 놈 (컨트롤 자체)
    - 누가 이벤트를 발생시켰는지
-</br>
 
 2) `oEvent.getParameter("...")`
    - 이벤트가 들고 온 데이터
    - 이벤트와 함께 전달된 정보
+</br>
 
 ### < 컨트롤 찾는 3단계 >
 1) `this.byId("idName")`
