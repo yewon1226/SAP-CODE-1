@@ -649,4 +649,5 @@ ENDFORM.
 
 - 아이콘 코드 찾기 (`SE28`)
 - `SE38` 에서 **RSTXICON** 입력 후 실행
-<img width="506" height="308" alt="image" src="https://github.com/user-attachments/assets/287718b4-9193-47b0-bb03-36968ee68431" />
+<img width="432" height="263" alt="image" src="https://github.com/user-attachments/assets/3f4c7d08-c642-4874-8557-06e79f018542" />
+
