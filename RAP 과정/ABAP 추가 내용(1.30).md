@@ -269,6 +269,8 @@ PERFORM <set_fieldcat> USING:
   'E'  <FIELDNAME>  <VALUE>.
 ```
 ```abap
+REPORT ZPROGB03_0029.
+
 *************** 동적 Field Catalog 설정 ****************
 FORM set_fieldcat USING pv_type TYPE C
                         pv_fname TYPE ANY
@@ -326,7 +328,10 @@ PERFORM set_fieldcat USING:
 ## < 엑셀 업로드 표준 형식 (row/col 기반 내부테이블 구성) >
 - 엑셀 파일을 선택해 row/col 구조의 임시 테이블로 읽어오는 형식
 - col 값으로 필드에 매핑하고, `AT END OF row` 에서 한 행을 완성해 결과 테이블에 추가하는 패턴
+</br>
 
+- `cl_gui_frontend_services=>file_open_dialog` : PC에서 파일 선택 창을 띄워서 사용자가 고른 파일 경로를 가져오는 메서드
+- `CALL FUNCTION 'ALSM_EXCEL_TO_INTERNAL_TABLE'` : 엑셀 파일을 읽어서 셀 단위(row/col) 내부테이블로 변환해주는 표준 함수
 ```abap
 *************** 파일 선택 파라미터 ****************
 PARAMETERS <파일경로> TYPE localfile.
@@ -370,6 +375,85 @@ LOOP AT <엑셀원본테이블> INTO <엑셀한셀>.
     CLEAR <결과한행>.
   ENDAT.
 ENDLOOP.
+```
+```abap
+REPORT ZPROGB03_0039.
+
+*************** 파라미터 및 데이터 선언 ****************
+PARAMETERS pa_file TYPE localfile.           " 엑셀업로드를 위한 파일업로드 타입의 파라미터 선언
+
+TYPES BEGIN OF ts_data.
+  TYPES: a_field(20),
+         b_field(20),
+         c_field(20).
+TYPES END OF ts_data.
+
+DATA: gt_filename   TYPE filetable,          " 선택한 파일 목록
+      gv_rc         TYPE i,                  " 파일 선택 결과 코드
+      gt_excel_data TYPE TABLE OF alsmex_tabline. " 엑셀 원본(row/col) 데이터
+DATA: gt_itab TYPE TABLE OF ts_data,          " 결과 내부테이블
+      gs_itab TYPE ts_data.                   " 결과 한 행
+FIELD-SYMBOLS: <fs>.                          " 동적 필드 매핑용
+CONSTANTS gc_filters TYPE string VALUE
+  'EXCEL FILES (*.XLSX)|*.XLSX|EXCEL FILES (*.XLS)|*.XLS|'.
+
+*************** 파일 선택 다이얼로그 ****************
+AT SELECTION-SCREEN ON VALUE-REQUEST FOR pa_file.    " pa_file 입력칸에서 F4(값 도움) 눌렀을 때 실행됨
+  cl_gui_frontend_services=>file_open_dialog(
+    EXPORTING
+      window_title     = '파일찾기'    " 파일 선택 창 상단에 표시될 제목
+      default_filename = space         " 기본으로 입력되어 있을 파일명 (없으면 공백)
+      file_filter      = gc_filters    " 선택 가능한 파일 확장자 제한 (엑셀만 보이게)
+      initial_directory= 'C:'          " 파일 선택 창이 처음 열릴 경로
+    CHANGING
+      file_table       = gt_filename   " 사용자가 선택한 파일 목록이 담기는 내부테이블
+      rc               = gv_rc         " 선택 결과
+                                        "  > 0 : 선택한 파일 개수
+                                        "  -1  : 오류 발생
+  ).
+  IF sy-subrc = 0.
+    READ TABLE gt_filename INTO pa_file INDEX 1. " 선택 파일 중 첫 번째 사용
+  ENDIF.
+
+*************** 엑셀 업로드 및 데이터 가공 ****************
+START-OF-SELECTION.
+  IF pa_file IS NOT INITIAL.
+    CALL FUNCTION 'ALSM_EXCEL_TO_INTERNAL_TABLE'
+      EXPORTING
+        filename    = pa_file   " 사용자가 선택한 엑셀 파일 전체 경로
+        i_begin_col = 1         " 엑셀에서 읽기 시작할 컬럼 번호
+        i_begin_row = 2         " 엑셀에서 읽기 시작할 행 번호 (보통 헤더 제외)
+        i_end_col   = 3         " 엑셀에서 읽을 마지막 컬럼 번호
+        i_end_row   = 100       " 엑셀에서 읽을 마지막 행 번호 (2~100행)
+      TABLES
+        intern      = gt_excel_data. " 엑셀을 row/col 단위로 담는 임시 내부테이블
+
+    IF sy-subrc = 0.
+      SORT gt_excel_data BY row col.
+      LOOP AT gt_excel_data INTO DATA(gs_excel_data).
+*        CASE gs_excel_data-col.
+*          WHEN '1'.
+*            gs_itab-a_field = gs_excel_data-value.
+*          WHEN '2'.
+*            gs_itab-b_field = gs_excel_data-value.
+*          WHEN '3'.
+*            gs_itab-c_field = gs_excel_data-value.
+*          WHEN OTHERS.
+*        ENDCASE.
+
+" 필드 심볼 이용
+        UNASSIGN <fs>. "CLEAR와 비슷하게 필드심볼 재사용 시 연결 해제
+        ASSIGN COMPONENT gs_excel_data-col OF STRUCTURE gs_itab TO <fs>.
+        <fs> = gs_excel_data-value.
+
+        AT END OF row. " row 값이 변경되기 전 마지막에 반영
+          APPEND gs_itab TO gt_itab.
+          CLEAR gs_itab.
+        ENDAT.
+      ENDLOOP.
+      cl_demo_output=>display( gt_itab ).
+    ENDIF.
+  ENDIF.
 ```
 </br>
 </br>
