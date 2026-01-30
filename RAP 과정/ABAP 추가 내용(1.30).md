@@ -536,7 +536,6 @@ DATA: go_tree       TYPE REF TO cl_gui_simple_tree,   " 트리 컨트롤 객체
 CLASS: lcl_node_event_handler DEFINITION DEFERRED.
 DATA: go_node_event TYPE REF TO lcl_node_event_handler. " 트리 이벤트 핸들러 객체
 
-
 *************** Tree 이벤트 핸들러 클래스 ****************
 CLASS lcl_node_event_handler DEFINITION.
   PUBLIC SECTION.
@@ -552,7 +551,6 @@ CLASS lcl_node_event_handler IMPLEMENTATION.
   ENDMETHOD.
 ENDCLASS.
 
-
 *************** Tree 생성 MODULE ****************
 MODULE init_tree OUTPUT.
   IF go_tree IS INITIAL.
@@ -566,7 +564,6 @@ MODULE init_tree OUTPUT.
     ENDIF.
   ENDIF.
 ENDMODULE.
-
 
 *************** Tree 노드 구성 FORM ****************
 FORM add_node .
