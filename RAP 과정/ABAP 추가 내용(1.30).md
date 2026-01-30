@@ -232,3 +232,35 @@ DO.
   ENDIF.
 ENDDO.
 ```
+</br>
+</br>
+
+### 5) 동적 Field Catalog 설정 (FIELD-SYMBOL 활용)
+- 필드 이름을 문자로 넘겨서, ALV 컬럼 속성을 하나씩 설정하는 방식
+- S로 시작하고 E로 끝내며, FIELD-SYMBOL로 바로 값을 넣어 컬럼을 완성
+```abap
+*************** 동적 Field Catalog 설정 (형식) ****************
+FORM <set_fieldcat> USING <pv_type>  TYPE c
+                           <pv_fname> TYPE any
+                           <pv_value> TYPE any.
+  FIELD-SYMBOLS <fs> TYPE any.
+
+  IF <pv_type> = 'S'.          " Start
+    CLEAR <gs_fcat>.
+  ENDIF.
+
+  ASSIGN <gs_fcat>-(<pv_fname>) TO <fs>.   " 필드명 문자열로 동적 접근
+  <fs> = <pv_value>.                       " 값 설정
+
+  IF <pv_type> = 'E'.          " End
+    APPEND <gs_fcat> TO <gt_fcat>.
+  ENDIF.
+ENDFORM.
+
+
+*************** Field Catalog 설정 호출 (형식) ****************
+PERFORM <set_fieldcat> USING:
+  'S'  <FIELDNAME>  <VALUE>,
+  ' '  <FIELDNAME>  <VALUE>,
+  'E'  <FIELDNAME>  <VALUE>.
+```
