@@ -379,3 +379,188 @@ ENDLOOP.
 </br>
 
 ## < Simple Tree 생성 및 노드 구성 >
+- `CL_GUI_SIMPLE_TREE` : 화면에 폴더처럼 생긴 메뉴 트리를 만들고, 클릭한 항목으로 동작을 나누는 UI 컨트롤
+- `CLASS … DEFINITION DEFERRED` : 클래스 구현이 뒤에 나오니까, 지금은 “이런 클래스가 있다”만 미리 알려주는 선언
+- `CALL METHOD go_tree->add_nodes` : 만들어둔 노드 테이블(MTREESNODE)을 Tree 화면에 실제로 그려주는 메서드
+- `go_tree->set_registered_events` : Tree가 어떤 이벤트(예: 더블클릭)를 사용할지 미리 등록해주는 설정 메서드
+```abap
+*************** Tree 관련 데이터 선언 ****************
+DATA: <go_tree>       TYPE REF TO cl_gui_simple_tree,   " Tree 컨트롤 객체
+      <go_tree_event> TYPE REF TO <lcl_tree_event>,     " Tree 이벤트 객체
+      <gs_node>       TYPE mtreesnode,                  " 노드 1건
+      <gt_node>       TYPE TABLE OF mtreesnode,         " 노드 전체 테이블
+      <lt_events>     TYPE cntl_simple_events,          " 등록 이벤트 목록
+      <ls_event>      TYPE cntl_simple_event.           " 이벤트 1건
+
+*************** Tree 생성 ****************
+CREATE OBJECT <go_tree>
+  EXPORTING
+    parent              = <부모컨테이너>
+    node_selection_mode = cl_gui_simple_tree=>node_sel_mode_single.
+
+*************** Tree 노드 구성 ****************
+CLEAR <gs_node>.
+<gs_node>-node_key  = <노드키>.        " 이 노드를 구분하는 고유 ID (겹치면 안 됨)
+<gs_node>-relatkey  = <부모노드키>.    " 이 노드가 속한 부모 노드의 KEY
+<gs_node>-isfolder  = 'X'.             " 폴더 노드 여부 (X: 펼칠 수 있음 / 공백: 말단 노드)
+<gs_node>-text      = <노드텍스트>.    " 트리 화면에 실제로 보여줄 글자
+<gs_node>-n_image   = <기본아이콘>.    " 노드가 접혀 있을 때 아이콘
+<gs_node>-exp_image = <확장아이콘>.    " 노드를 펼쳤을 때 아이콘
+APPEND <gs_node> TO <gt_node>.
+
+*************** Tree 노드 반영 ****************
+* 노드 테이블을 Tree에 추가
+CALL METHOD <go_tree>->add_nodes
+  EXPORTING
+    table_structure_name = 'MTREESNODE'
+    node_table           = <gt_node>.
+
+*************** Tree 이벤트 핸들러 클래스 ****************
+* 노드 더블클릭 이벤트 처리
+CLASS <lcl_tree_event> DEFINITION.
+  PUBLIC SECTION.
+    METHODS <on_node_double_click>
+      FOR EVENT node_double_click OF cl_gui_simple_tree
+      IMPORTING node_key.  " 클릭된 노드 키
+ENDCLASS.
+
+CLASS <lcl_tree_event> IMPLEMENTATION.
+  METHOD <on_node_double_click>.
+    " node_key 기준 처리 로직
+  ENDMETHOD.
+ENDCLASS.
+
+*************** Tree 이벤트 등록 ****************
+CREATE OBJECT <go_tree_event>.
+SET HANDLER <go_tree_event>-><on_node_double_click> FOR <go_tree>.
+
+<ls_event>-eventid    = cl_gui_simple_tree=>eventid_node_double_click. " 더블클릭 이벤트
+<ls_event>-appl_event = 'X'.  " 화면 PAI 먼저 실행
+APPEND <ls_event> TO <lt_events>.
+
+CALL METHOD <go_tree>->set_registered_events
+  EXPORTING
+    events = <lt_events>.
+```
+```abap
+REPORT zprogb03_0040.
+
+*************** Tree 관련 데이터 선언 ****************
+DATA: go_tree       TYPE REF TO cl_gui_simple_tree,   " 트리 컨트롤 객체
+      gs_node       TYPE mtreesnode,                  " 트리 노드 1건
+      gt_node       TYPE TABLE OF mtreesnode.         " 트리 노드 전체 목록
+CLASS: lcl_node_event_handler DEFINITION DEFERRED.
+DATA: go_node_event TYPE REF TO lcl_node_event_handler. " 트리 이벤트 핸들러 객체
+
+
+*************** Tree 이벤트 핸들러 클래스 ****************
+CLASS lcl_node_event_handler DEFINITION.
+  PUBLIC SECTION.
+    METHODS:
+      double_click
+        FOR EVENT node_double_click OF cl_gui_simple_tree
+        IMPORTING node_key.   " 더블클릭한 노드 KEY
+ENDCLASS.
+
+CLASS lcl_node_event_handler IMPLEMENTATION.
+  METHOD double_click.
+    MESSAGE node_key TYPE 'E' DISPLAY LIKE 'S'.  " 클릭된 노드 KEY 표시
+  ENDMETHOD.
+ENDCLASS.
+
+
+*************** Tree 생성 MODULE ****************
+MODULE init_tree OUTPUT.
+  IF go_tree IS INITIAL.
+    CREATE OBJECT go_tree
+      EXPORTING
+        parent              = go_cont_r
+        node_selection_mode = cl_gui_simple_tree=>node_sel_mode_single.
+    IF sy-subrc = 0.
+      PERFORM add_node.
+      PERFORM set_node_events.
+    ENDIF.
+  ENDIF.
+ENDMODULE.
+
+
+*************** Tree 노드 구성 FORM ****************
+FORM add_node .
+  CLEAR gs_node.
+  gs_node-node_key  = 'ROOT'.        " 루트 노드
+  gs_node-relatkey  = ' '.           " 최상위
+  gs_node-isfolder  = 'X'.           " 폴더 노드
+  gs_node-text      = 'TREE Header'. " 헤더 텍스트
+  gs_node-n_image   = '@5C@'.        " 접힘 아이콘
+  gs_node-exp_image = '@5B@'.        " 펼침 아이콘
+  APPEND gs_node TO gt_node.
+
+  CLEAR gs_node.
+  gs_node-node_key  = 'LV11'.
+  gs_node-relatkey  = 'ROOT'.        " ROOT의 자식
+  gs_node-isfolder  = 'X'.
+  gs_node-text      = '자식노드'.
+  gs_node-n_image   = '@5C@'.
+  gs_node-exp_image = '@5B@'.
+  APPEND gs_node TO gt_node.
+
+  CLEAR gs_node.
+  gs_node-node_key  = 'LV21'.
+  gs_node-relatkey  = 'ROOT'.        " ROOT의 형제 레벨
+  gs_node-isfolder  = 'X'.
+  gs_node-text      = '형제노드'.
+  gs_node-n_image   = '@5C@'.
+  gs_node-exp_image = '@5B@'.
+  APPEND gs_node TO gt_node.
+
+  CLEAR gs_node.
+  gs_node-node_key  = 'LV12'.
+  gs_node-relatkey  = 'LV11'.        " LV11의 자식
+  gs_node-isfolder  = 'X'.
+  gs_node-text      = '자식의 자식 노드'.
+  gs_node-n_image   = '@BU@'.
+  gs_node-exp_image = '@GZ@'.
+  APPEND gs_node TO gt_node.
+
+  CLEAR gs_node.
+  gs_node-node_key  = 'LV13'.
+  gs_node-relatkey  = 'LV12'.        " LV12의 자식
+  gs_node-isfolder  = 'X'.
+  gs_node-text      = '자식의 자식의 자식 노드'.
+  gs_node-n_image   = '@BU@'.
+  gs_node-exp_image = '@GZ@'.
+  APPEND gs_node TO gt_node.
+
+  CLEAR gs_node.
+  gs_node-node_key  = 'LV22'.
+  gs_node-relatkey  = 'LV21'.        " LV21의 자식
+  gs_node-isfolder  = 'X'.
+  gs_node-text      = '형제의 자식 노드'.
+  gs_node-n_image   = '@BU@'.
+  gs_node-exp_image = '@GZ@'.
+  APPEND gs_node TO gt_node.
+
+  CALL METHOD go_tree->add_nodes
+    EXPORTING
+      table_structure_name = 'MTREESNODE'
+      node_table           = gt_node.
+ENDFORM.
+
+*************** Tree 이벤트 등록 FORM ****************
+FORM set_node_events .
+  DATA: lt_events TYPE cntl_simple_events,
+        ls_event  TYPE cntl_simple_event.
+
+  CREATE OBJECT go_node_event.
+  SET HANDLER go_node_event->double_click FOR go_tree.
+
+  " tree 객체에도 실행할 이벤트가 어떤건지 알려줘야 함
+  ls_event-eventid = cl_gui_simple_tree=>eventid_node_double_click.
+  ls_event-appl_event = 'X'. " Tree가 속한 화면(100번)의 PAI를 먼저 실행
+  APPEND ls_event TO lt_events.
+
+  CALL METHOD go_tree->set_registered_events
+    EXPORTING
+      events = lt_events.
+ENDFORM.
+```
