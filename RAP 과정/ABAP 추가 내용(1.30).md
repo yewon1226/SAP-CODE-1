@@ -127,6 +127,8 @@ WRITE: / <fs_any>-year,
        / <fs_any>-day.
 ```
 ```abap
+REPORT ZPROGB03_0038.
+
 *************** CASTING (날짜 → 구조 해석) ****************
 TYPES: BEGIN OF ty_date,
         year TYPE N LENGTH 4,
@@ -206,6 +208,8 @@ SELECT SINGLE *
     AND <DB_FIELD> = <VALUE>.
 ```
 ```abap
+REPORT ZPROGB03_0038.
+
 *************** New Open SQL (@DATA 인라인 선언) ****************
 FIELD-SYMBOLS <fs> TYPE SIMPLE.
 
@@ -239,7 +243,7 @@ ENDDO.
 - 필드 이름을 문자로 넘겨서, ALV 컬럼 속성을 하나씩 설정하는 방식
 - S로 시작하고 E로 끝내며, FIELD-SYMBOL로 바로 값을 넣어 컬럼을 완성
 ```abap
-*************** 동적 Field Catalog 설정 (형식) ****************
+*************** 동적 Field Catalog 설정 ****************
 FORM <set_fieldcat> USING <pv_type>  TYPE c
                            <pv_fname> TYPE any
                            <pv_value> TYPE any.
@@ -258,9 +262,112 @@ FORM <set_fieldcat> USING <pv_type>  TYPE c
 ENDFORM.
 
 
-*************** Field Catalog 설정 호출 (형식) ****************
+*************** Field Catalog 설정 호출 ****************
 PERFORM <set_fieldcat> USING:
   'S'  <FIELDNAME>  <VALUE>,
   ' '  <FIELDNAME>  <VALUE>,
   'E'  <FIELDNAME>  <VALUE>.
+```
+```abap
+*************** 동적 Field Catalog 설정 ****************
+FORM set_fieldcat USING pv_type TYPE C
+                        pv_fname TYPE ANY
+                        pv_value TYPE ANY.
+  FIELD-SYMBOLS <fs> TYPE ANY.
+  
+  IF pv_type = 'S'. "Start
+    CLEAR gs_fcat.
+  ENDIF.
+  
+  ASSIGN gs_fcat-(pv_fname) TO <fs>.
+  <fs> = pv_value.
+  
+  IF pv_type = 'E'. "End
+    APPEND gs_fcat TO gt_fcat.
+  ENDIF.
+ENDFORM.
+
+*************** Field Catalog 설정 호출 ****************
+PERFORM set_fieldcat USING:
+    'S'  'FIELDNAME'  'CANCELLED_ICON',
+    ' '  'ICON'       'X',
+    'E'  'COLTEXT'    'Cancelled',
+    'S'  'FIELDNAME'  'CANCELLED',
+    'E'  'NO_OUT'     'X',
+    'S'  'FIELDNAME'  'PASSFORM',
+    'E'  'NO_OUT'     'X',
+    'S'  'FIELDNAME'  'PASSBIRTH',
+    'E'  'NO_OUT'     'X',
+    'S'  'FIELDNAME'  'PHONE',
+    ' '  'REF_FIELD'  'TELEPHONE',
+    ' '  'REF_TABLE'  'SCUSTOM',
+    ' '  'COL_POS'    4,
+    'E'  'HOTSPOT'    'X',
+    'S'  'FIELDNAME'  'SMOKER',
+    'E'  'CHECKBOX'   'X',
+    'S'  'FIELDNAME'  'INVOICE',
+    'E'  'CHECKBOX'   'X',
+    'S'  'FIELDNAME'  'CLASS',
+    'E'  'EMPHASIZE'  'C510',
+    'S'  'FIELDNAME'  'LOCCURAM',
+    'E'  'COL_POS'    6,
+    'S'  'FIELDNAME'  'DISPLAY_BOOKINGS',
+    ' '  'COLTEXT'    'Display Detail',
+    'E'  'COL_POS'    3
+    .
+```
+</br>
+</br>
+
+---
+
+</br>
+
+## < 엑셀 업로드 표준 형식 (row/col 기반 내부테이블 구성) >
+- 엑셀 파일을 선택해 row/col 구조의 임시 테이블로 읽어오는 형식
+- col 값으로 필드에 매핑하고, `AT END OF row` 에서 한 행을 완성해 결과 테이블에 추가하는 패턴
+
+```abap
+*************** 파일 선택 파라미터 ****************
+PARAMETERS <파일경로> TYPE localfile.
+
+*************** 파일 선택 다이얼로그 ****************
+AT SELECTION-SCREEN ON VALUE-REQUEST FOR <파일경로>.
+  cl_gui_frontend_services=>file_open_dialog(
+    EXPORTING
+      file_filter = <파일필터>
+    CHANGING
+      file_table  = <선택파일목록>
+      rc          = <리턴코드>
+  ).
+  READ TABLE <선택파일목록> INTO <파일경로> INDEX 1.
+
+*************** 엑셀 데이터 임시 테이블 ****************
+DATA <엑셀원본테이블> TYPE TABLE OF alsmex_tabline.
+
+*************** 엑셀 → 내부테이블 변환 ****************
+CALL FUNCTION 'ALSM_EXCEL_TO_INTERNAL_TABLE'
+  EXPORTING
+    filename    = <파일경로>
+    i_begin_col = <시작컬럼>
+    i_begin_row = <시작행>
+    i_end_col   = <종료컬럼>
+    i_end_row   = <종료행>
+  TABLES
+    intern      = <엑셀원본테이블>.
+
+*************** 엑셀 데이터 가공 (row/col 핵심 로직) ****************
+SORT <엑셀원본테이블> BY row col.
+
+LOOP AT <엑셀원본테이블> INTO <엑셀한셀>.
+  CASE <엑셀한셀>-col.
+    WHEN <컬럼번호>.
+      <결과한행>-<필드명> = <엑셀한셀>-value.
+  ENDCASE.
+
+  AT END OF row.        " 같은 행(row)의 마지막 컬럼일 때
+    APPEND <결과한행> TO <결과테이블>.
+    CLEAR <결과한행>.
+  ENDAT.
+ENDLOOP.
 ```
