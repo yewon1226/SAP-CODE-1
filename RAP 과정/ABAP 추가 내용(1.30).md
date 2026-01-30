@@ -645,3 +645,8 @@ FORM set_node_events .
       events = lt_events.
 ENDFORM.
 ```
+</br>
+
+- 아이콘 코드 찾기 (`SE28`)
+- `SE38` 에서 **RSTXICON** 입력 후 실행
+<img width="506" height="308" alt="image" src="https://github.com/user-attachments/assets/287718b4-9193-47b0-bb03-36968ee68431" />
