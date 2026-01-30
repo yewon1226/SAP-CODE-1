@@ -221,11 +221,14 @@ DO.
   " Field symbol과 연결함
   ASSIGN COMPONENT sy-index OF STRUCTURE gs_spfli TO <fs>.
   IF sy-subrc <> 0. " 만약 ASSIGN에 성공하면 0이 들어옴
-    UNASSIGN <fs>. " <fs> 연결 해제
     EXIT.
   ENDIF.
   IF <fs> IS ASSIGNED.
     WRITE: <fs>.
+    UNASSIGN <fs>. " <fs> 연결 해제
+  ENDIF.
+
+  IF <fs> IS NOT ASSIGNED. " UNASSIGN 하고 나서는 OK
   ENDIF.
 ENDDO.
 ```
