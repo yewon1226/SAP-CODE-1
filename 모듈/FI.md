@@ -255,3 +255,50 @@
 | FI 연동 여부 | 연동됨 (G/L 계정이 곧 비용 요소) | 연동 안 됨 (CO 내부에서만 생성) |
 | 예시 | 급여 지급, 사무용품 구입, 제품 매출 | IT 지원 서비스 배부, 공통비 배부 |
 | 데이터 흐름 | 외부 → FI → CO | CO 내부 → CO 내부 |
+
+</br>
+</br>
+</br>
+
+### Business Partner : FI Vendor 
+- Business Partner(BP) → 고객·공급업체 등의 마스터 데이터를 통합 관리하는 객체
+- BP 데이터 구조
+
+  - General Data → 클라이언트 전체에서 공통 사용 (주소, 연락처, 은행 정보 등)
+  - Financial Accounting Data → 회사코드별 관리 (지급 방법, GL 연동, 세금 정보 등)
+- Business Partner Role
+
+  - BP에 역할(Role)을 부여하여 사용 목적을 구분
+  - Customer → 고객 / Supplier → 공급업체 / FI Customer → 회계용 고객 / FI Vendor → 회계용 공급업체
+
+<img width="604" height="272" alt="image" src="https://github.com/user-attachments/assets/a53009bf-f210-4147-8c05-cf7d7b92a82e" />
+</br>
+</br>
+</br>
+</br>
+
+### 구매 프로세스 회계 흐름 (FI 자동 분개)
+- 구매 프로세스 진행 시 단계별로 FI 전표가 자동 생성됨
+  
+<img width="906" height="264" alt="image" src="https://github.com/user-attachments/assets/5aa5a4bb-1b91-42cb-8556-2487e3d9d8f7" />
+</br>
+</br>
+</br>
+</br>
+
+### Vendor Invoice 회계 흐름
+- ① Vendor Invoice 입력 → 공급업체 송장 등록
+- ② Accounts Payable 기록 → 매입채무(Reconciliation Account) 발생
+- ③ Expense Account 반영 → 비용 계정(P&L)에 금액 기록 (예: 사무용품 비용)
+- ④ CO Cost Center 반영 → 비용이 코스트센터로 전달되어 관리
+  
+<img width="665" height="365" alt="image" src="https://github.com/user-attachments/assets/15655bea-8f85-4036-bc0a-5657944c8fe9" />
+</br>
+</br>
+</br>
+</br>
+
+### Accounts Receivable Value Flow
+- ① Create Business Partner → 고객 BP(FI Customer) 생성 및 Reconciliation Account 설정
+- ② Post Invoice → 매출 송장 발행 → 매출(P&L) + 매출채권(AR) 발생
+- ③ Post Payment → 고객 결제 → 매출채권 정리(Clearing) 및 은행 입금
