@@ -87,3 +87,41 @@
 </br>
 </br>
 </br>
+
+### Bike Company ↔ SAP S/4HANA 매핑
+
+| 기업 구조 | SAP S/4HANA | 의미 |
+|---|---|---|
+| 전체 회사 | 1 Client | SAP 시스템 전체를 구분하는 최상위 단위 |
+| 재무 부서 | Financial Accounting (FI) | 재무회계 및 재무제표 관리 |
+| 관리회계 부서 | Controlling (CO) | 비용·수익 및 내부 성과 관리 |
+| 인사 부서 | Human Resource Management | 직원 및 인사 정보 관리 |
+| 구매 부서 | Materials Management (MM) | 자재 구매 및 공급업체 관리 |
+| 영업 및 서비스 부서 | Sales and Distribution (SD) | 제품 판매 및 고객 관리 |
+| 생산 부서 | Production (PP) | 생산 계획 및 생산 관리 |
+
+- 상세 구조 매핑
+
+| 기업 구조 | SAP S/4HANA | 의미 |
+|---|---|---|
+| 전체 비용·수익 통합 관리 | 1 Controlling Area | 회사 전체 비용·수익을 통합 관리하는 단위 |
+| 수익성 분석 구조 | 1 Operating Concern | 제품·사업 기준 수익성 분석 단위 |
+| 12개 법인 | 12 Company Codes | 법인별 재무회계를 관리하는 단위 |
+| 3개 사업 영역 | 3 Segments | 사업 분야별 재무 성과 분석 단위 |
+| 12개 인사 조직 | 12 Personnel Areas | 조직별 인사 관리 단위 |
+| 4개 생산 공장 | 4 Plants | 생산이 이루어지는 공장 단위 |
+| 8개 물류센터 | 8 Distribution Centers | 제품 보관 및 배송을 담당하는 물류 단위 |
+</br>
+</br>
+
+### Master Data vs Transaction Data
+#### - Master Data (마스터 데이터)
+
+  - 기업 운영에 필요한 기본 데이터
+  - 시간이 지나도 거의 변하지 않는 데이터
+  - 예: 고객 정보, 제품 정보, 직원 정보, 공급업체 정보
+#### - Transaction Data (거래 데이터)
+
+  - 일상 업무 처리 과정에서 계속 생성되는 데이터
+  - 업무 활동에 따라 자주 변경됨
+  - 예: 판매 주문, 송장(Invoice), 결제(Payment), 배송(Shipment)
