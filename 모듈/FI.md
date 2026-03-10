@@ -133,3 +133,38 @@
 
 </br>
 </br>
+
+### Financial Accounting 기본 구조
+- 회계는 Financial Accounting(FI)와 Management Accounting(CO) 두 영역으로 구성됨
+- Subledger에서 발생한 거래 → General Ledger에 반영 → 재무제표 생성
+#### - General Ledger (G/L) 
+
+  - 모든 회계 거래를 통합 관리하는 중심 계정
+#### - Subledger (보조원장)
+  
+  - Accounts Receivable (AR) → 고객 매출채권 관리
+  - Accounts Payable (AP) → 공급업체 매입채무 관리
+  - Asset Accounting → 고정자산 관리
+#### - 재무 계정 구조
+
+  - Balance Sheet Accounts → 자산·부채 계정 (재무상태표)
+  - Profit and Loss Accounts → 수익·비용 계정 (손익계산서)
+
+<img width="550" height="282" alt="image" src="https://github.com/user-attachments/assets/48172040-d412-4640-b1a5-a315210885c3" />
+</br>
+</br>
+</br>
+</br>
+
+### Management Accounting (CO) 기본 구조
+- FI에서 발생한 비용·수익 데이터를 활용해 내부 경영 분석을 수행
+- FI 전표 → 비용 분류 → 부서/제품 원가 분석 → 수익성 분석
+</br>
+
+1) FI에서 비용·수익 발생 → 매출, 비용, 급여, 자재비 등 전표 발생
+2) Cost Element Accounting → 비용/수익을 관리회계용 비용요소로 분류
+3) Overhead Cost Controlling → 비용을 부서(비용센터) 기준으로 관리
+4) Product Cost Controlling → 제품별 원가 계산
+5) Margin Analysis → 제품 / 고객 / 사업별 수익성 분석
+   
+<img width="605" height="338" alt="image" src="https://github.com/user-attachments/assets/d0ba690d-f325-4e9a-873c-7240ef5ca450" />
