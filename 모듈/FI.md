@@ -186,3 +186,33 @@
 ### Operating Chart of Accounts (운영 계정표)
 - Operating Chart of Accounts란 하나의 Chart of Accounts(계정 체계)를 여러 Company Code가 공통으로 사용하는 구조
 <img width="516" height="197" alt="image" src="https://github.com/user-attachments/assets/068f1bfc-6601-4635-b63e-0e72d2af6dd6" />
+</br>
+</br>
+</br>
+</br>
+
+### G/L Account 번호 구조
+- G/L 계정은 번호 앞자리로 계정 종류(자산·부채·자본·수익·비용)를 구분함
+- Balance Sheet Accounts (1~3xxxxxxx) → 자산·부채·자본 계정
+
+  - 1xxxxxxx → 은행, 현금, 고정자산 등 자산 계정
+  - 2xxxxxxx → 매입채무, 세금 등 부채 계정
+  - 3xxxxxxx → 자본금 등 자본 계정
+- Profit and Loss Accounts (4~7xxxxxxx) → 수익·비용 계정
+
+  - 4xxxxxxx → 매출 계정
+  - 5xxxxxxx → 재료비·재고 관련 비용 계정
+  - 6xxxxxxx → 운영비(여비, 관리비 등) 계정
+  - 7xxxxxxx → 이자·환차손익 등 기타 손익 계정
+<img width="600" height="267" alt="image" src="https://github.com/user-attachments/assets/4ba12152-f0dc-4cf4-8f53-cee2ef33f544" />
+</br>
+</br>
+</br>
+</br>
+
+### Financial Statement Version (FSV)
+- FSV 역할 → 재무상태표(Balance Sheet)와 손익계산서(P&L) 구조를 정의함
+- G/L 계정 관리 → 각 G/L 계정을 재무제표 항목(Item / Sub-item)에 매핑
+- 재무제표 표시 → 연결된 G/L 계정 금액을 합계로 계산하여 재무제표에 표시
+
+<img width="594" height="330" alt="image" src="https://github.com/user-attachments/assets/160333c9-f429-4b9c-b682-f012c36f0f8e" />
