@@ -74,6 +74,7 @@
   - 사업 영역 : bikes, spare parts, service
 </br>
 </br>
+</br>
 
 ### SAP Enterprise Structure 핵심
 - Client → SAP 시스템 전체를 대표하는 최상위 조직
@@ -133,6 +134,7 @@
 
 </br>
 </br>
+</br>
 
 ### Financial Accounting 기본 구조
 - 회계는 Financial Accounting(FI)와 Management Accounting(CO) 두 영역으로 구성됨
@@ -168,3 +170,7 @@
 5) Margin Analysis → 제품 / 고객 / 사업별 수익성 분석
    
 <img width="605" height="338" alt="image" src="https://github.com/user-attachments/assets/d0ba690d-f325-4e9a-873c-7240ef5ca450" />
+</br>
+</br>
+</br>
+</br>
