@@ -174,3 +174,15 @@
 </br>
 </br>
 </br>
+
+### G/L Accounting 주요 기능
+- Chart of Accounts → G/L 계정을 일관된 기준으로 생성·관리하는 계정 체계
+- Financial Statement Version (FSV) → 재무상태표와 손익계산서 구조를 정의하는 재무제표 구조
+- General Journal Entry → 재무 거래를 기록하며 최소 두 계정(차변·대변)에 영향을 주는 분개 전표
+</br>
+</br>
+</br>
+
+### Operating Chart of Accounts (운영 계정표)
+- Operating Chart of Accounts란 하나의 Chart of Accounts(계정 체계)를 여러 Company Code가 공통으로 사용하는 구조
+<img width="516" height="197" alt="image" src="https://github.com/user-attachments/assets/068f1bfc-6601-4635-b63e-0e72d2af6dd6" />
