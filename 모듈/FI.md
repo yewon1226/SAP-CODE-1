@@ -216,3 +216,42 @@
 - 재무제표 표시 → 연결된 G/L 계정 금액을 합계로 계산하여 재무제표에 표시
 
 <img width="594" height="330" alt="image" src="https://github.com/user-attachments/assets/160333c9-f429-4b9c-b682-f012c36f0f8e" />
+</br>
+</br>
+</br>
+</br>
+
+### General Journal Entry 화면 구성
+- ① Journal Entry Date / Posting Date → 전표 작성일 / 회계 반영일
+- ② Journal Entry Type → 전표 유형 (예: G/L 전표)
+- ③ Company Code → 전표가 기록될 회사 코드
+- ④ G/L Account → 금액을 기록할 계정 번호
+- ⑤ Debit / Credit → 차변 / 대변 금액 입력
+- ⑥ Line Item 추가/관리 → 전표 라인 추가 및 관리
+- ⑦ Total Balance → 차변·대변 합계 확인 (0이어야 전표 등록 가능)
+<img width="689" height="409" alt="image" src="https://github.com/user-attachments/assets/f9313fab-a746-4c96-9ef5-25e8cc3cceb0" />
+
+</br>
+</br>
+</br>
+</br>
+
+### G/L Account Type
+- G/L 계정은 유형(Account Type)에 따라 재무제표와 비용·수익 처리 방식이 달라짐
+- Balance Sheet Account → 재무상태표에 표시되는 자산·부채·자본 계정
+- Cash Account / Bank Reconciliation Account → 은행·현금 거래를 관리하는 계정
+- Non-Operating Expense / Income → 회사 주요 영업과 직접 관련 없는 수익·비용 계정
+- Primary Costs or Revenue → 회사 운영 활동에서 발생하는 주요 비용·수익 계정
+</br>
+</br>
+</br>
+
+### Primary Costs vs Secondary Costs 비교
+
+
+| 구분 | Primary Costs or Revenue | Secondary Costs |
+|-----|--------------------------|----------------|
+| 거래 대상 | 외부 업체, 고객, 직원 등 | 사내 부서 간 (Cost Center, Order 등) |
+| FI 연동 여부 | 연동됨 (G/L 계정이 곧 비용 요소) | 연동 안 됨 (CO 내부에서만 생성) |
+| 예시 | 급여 지급, 사무용품 구입, 제품 매출 | IT 지원 서비스 배부, 공통비 배부 |
+| 데이터 흐름 | 외부 → FI → CO | CO 내부 → CO 내부 |
