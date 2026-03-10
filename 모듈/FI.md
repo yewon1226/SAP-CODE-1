@@ -117,12 +117,19 @@
 
 ### Master Data vs Transaction Data
 #### - Master Data (마스터 데이터)
+- 기업 운영에 필요한 기본 데이터이며 시간이 지나도 거의 변하지 않음  
+- Enterprise Structure 기준으로 관리되는 장기 유지 데이터
+- 예: 고객 정보, 제품 정보, 직원 정보, 공급업체 정보
 
-  - 기업 운영에 필요한 기본 데이터
-  - 시간이 지나도 거의 변하지 않는 데이터
-  - 예: 고객 정보, 제품 정보, 직원 정보, 공급업체 정보
 #### - Transaction Data (거래 데이터)
+- 일상 업무 처리 과정에서 계속 생성되는 데이터  
+- 업무 활동에 따라 자주 변경되며 Document 형태로 저장됨
+- 예: 판매 주문, 송장(Invoice), 결제(Payment), 배송(Shipment)
 
-  - 일상 업무 처리 과정에서 계속 생성되는 데이터
-  - 업무 활동에 따라 자주 변경됨
-  - 예: 판매 주문, 송장(Invoice), 결제(Payment), 배송(Shipment)
+#### - Document (문서)
+- Transaction Data를 기록하는 문서 형태의 데이터  
+- Company Code, Plant 등 Enterprise Structure에 연결되어 저장됨
+- 예: Sales Order 생성, Vendor Invoice 전표 처리, Production Order 생성
+
+</br>
+</br>
