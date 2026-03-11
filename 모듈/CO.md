@@ -670,3 +670,11 @@
 - CK24에서 원가계산 결과를 표준가격(Standard Price)으로 마킹하고 Release하여 자재 표준원가로 반영함
 - Release 이후 해당 표준가격이 재고평가, 생산원가, 손익계산 등에 기준 가격으로 사용됨
 <img width="902" height="627" alt="image" src="https://github.com/user-attachments/assets/8df0e50d-53bd-4448-b6a7-5dd9f2d4fe10" />
+</br>
+</br>
+</br>
+</br>
+
+### Manage Costing Runs – Estimated Cost
+- Manage Costing Runs에서 원가계산 Run을 생성하면 CK40N 화면으로 이동하여 여러 자재의 원가를 일괄 계산함
+- Selection → Costing → Analysis → Marking → Release 단계로 표준원가 계산 및 반영을 관리함
