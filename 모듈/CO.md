@@ -338,3 +338,201 @@
 - Allocation Result 화면에서 배부 실행 결과를 한 번에 조회 가능
 - 배부 Cycle 실행 이력, 상태, 실행시간 등을 확인하여 배부 결과를 분석함
 <img width="1053" height="456" alt="image" src="https://github.com/user-attachments/assets/fcdb21c8-9d48-4062-8251-4b7a566043ce" />
+
+</br>
+</br>
+</br>
+</br>
+
+### CO 기간 통제 (Controlling Area vs Company Code)
+- S/4HANA에서는 회사코드 기준으로 CO 기간을 열거나 닫아 전기 가능 기간을 통제 가능
+- Controlling Area 기준으로도 관리회계 전표 입력 기간을 별도로 통제 가능
+
+<img width="965" height="364" alt="image" src="https://github.com/user-attachments/assets/247ffad7-260d-4942-b848-fa229fc0cfb2" />
+</br>
+</br>
+</br>
+</br>
+
+### Budget Profile 설정
+- Budget Profile에서 코스트센터 예산 통제 기준 계정과 허용 한도(Tolerance Limit)를 설정함
+- 코스트센터 예산은 연간 기준으로만 입력 가능하며 월별 예산 통제 기능은 지원하지 않음
+
+<img width="915" height="469" alt="image" src="https://github.com/user-attachments/assets/8e2a9711-1ced-4e5d-846d-6da4e42c5c2b" />
+</br>
+</br>
+</br>
+</br>
+
+### Cost Center Budgeting
+- 코스트센터 예산 관리에서 코스트센터와 G/L 계정 기준으로 실제 비용 실적을 조회하여 예산 대비 사용 현황을 확인함
+- Cost Centers Actuals 화면을 통해 계정별 비용 발생 금액을 분석 가능
+
+<img width="1013" height="499" alt="image" src="https://github.com/user-attachments/assets/d7f48367-c4d9-442c-b82b-3ab0d0865f46" />
+</br>
+</br>
+
+<img width="994" height="494" alt="image" src="https://github.com/user-attachments/assets/a9c3306d-d93b-4b71-9d1b-c3b8c17fc388" />
+</br>
+</br>
+</br>
+</br>
+
+### Cost Center Budget 입력
+- 코스트센터와 G/L 계정을 지정하여 예산 금액을 입력하고 저장함
+- 입력된 예산은 해당 코스트센터 비용 통제 기준으로 사용됨
+
+<img width="953" height="388" alt="image" src="https://github.com/user-attachments/assets/388b3875-3b6d-4e9f-a7ed-bdcbfcaed1c7" />
+</br>
+</br>
+
+<img width="920" height="457" alt="image" src="https://github.com/user-attachments/assets/b81d19e2-2ecc-4822-ba3a-6d5eb73279a6" />
+</br>
+</br>
+</br>
+</br>
+
+### Import Financial Plan Data
+- Import Financial Plan Data 기능에서 CSV 파일을 업로드하여 코스트센터 계획(Plan) 데이터를 일괄 등록 가능
+- 코스트센터, G/L 계정, 기간, 금액 등의 계획 데이터를 파일로 입력하여 계획 원가를 관리함
+
+<img width="1083" height="482" alt="image" src="https://github.com/user-attachments/assets/5be656bf-507b-4920-806d-12ea32fb1b65" />
+</br>
+</br>
+</br>
+</br>
+
+### Profit Center Reporting (책임 단위별 수익 분석)
+- Profit Center 기준으로 매출·비용·자산 등을 분석하여 조직별 수익성과 재무지표(ROI 등)를 평가하는 보고 체계
+- Universal Journal(ACDOCA)에 통합되어 Profit Center 단위 재무보고 및 손익·재무상태 분석 가능
+  
+<img width="498" height="375" alt="image" src="https://github.com/user-attachments/assets/0e9ac47f-be32-4301-97c1-62e0c58ba9da" />
+</br>
+</br>
+</br>
+</br>
+
+### CO 영역 조직 구조
+- Profit Center는 Controlling Area에 속하며, Standard Hierarchy 구조로 기업의 수익 조직(PCA)을 구성함
+- Controlling Area 아래에 Profit Center, Company Code, Cost Center 등이 연결되어 CO 조직 구조를 형성함
+
+<img width="527" height="321" alt="image" src="https://github.com/user-attachments/assets/0ede774c-30bc-4706-9972-0c3c64a49349" />
+</br>
+</br>
+</br>
+</br>
+
+### Profit Center Standard Hierarchy
+- Controlling Area 내 모든 Profit Center를 하나의 트리 구조(Standard Hierarchy)로 관리하는 조직 구조
+- Profit Center 생성 시 반드시 Standard Hierarchy에 포함되며 지역·제품·기능 기준으로 조직 구조 구성 가능
+
+<img width="530" height="354" alt="image" src="https://github.com/user-attachments/assets/c66d4dc8-f44e-4e0c-b331-8d743e9206ca" />
+</br>
+</br>
+</br>
+</br>
+
+### Profit Center Master
+- Profit Center는 책임 단위별 수익성을 관리하기 위한 마스터 데이터로, 생성·변경·조회는 KE51 / KE52 / KE53 t-code에서 수행
+- Fiori 앱(Manage Profit Centers) 또는 FI → GL → Master Records 경로에서 생성하며 회사코드와 연결하여 사용
+
+<img width="892" height="506" alt="image" src="https://github.com/user-attachments/assets/259beb78-4103-4c73-895a-ea852158a643" />
+</br>
+</br>
+</br>
+</br>
+
+### G/L Account in Profit Center Accounting
+- G/L 계정은 Account Type에 따라 재무회계(FI)와 관리회계(CO)에서 사용 방식이 결정됨
+- 계정 유형은 Balance Sheet, Non-operating, Primary Cost/Revenue, Secondary Cost로 구분되어 비용·수익·내부원가 흐름을 관리함
+<img width="517" height="267" alt="image" src="https://github.com/user-attachments/assets/06d3465c-d731-4380-bdc4-bb494bc1ca05" />
+</br>
+</br>
+</br>
+</br>
+
+### Profit Center Group
+- Profit Center를 여러 개 묶어 관리·보고하기 위한 그룹 구조로, 조직·제품·사업 기준으로 추가 그룹 구성 가능
+- FI → GL → Master Records → Profit Center → Profit Center Group 또는 Fiori Manage Profit Center Groups에서 생성
+
+<img width="492" height="349" alt="image" src="https://github.com/user-attachments/assets/7e10c714-ddca-49dd-9005-b9333e293767" />
+</br>
+</br>
+</br>
+</br>
+
+### Manage Profit Centers
+- Fiori 앱 Manage Profit Centers에서 Profit Center를 생성·변경·삭제하고 조직별 수익 관리용 마스터 데이터를 관리함
+- Controlling Area 기준으로 Profit Center 목록 조회, 책임자·유효기간 등 정보를 관리 가능
+
+<img width="986" height="374" alt="image" src="https://github.com/user-attachments/assets/6dc7051f-ea26-40cb-962c-31d292cfb1cc" />
+</br>
+</br>
+
+<img width="1034" height="506" alt="image" src="https://github.com/user-attachments/assets/a09d60a4-e0cb-465e-9d05-16282ee793f1" />
+</br>
+</br>
+
+<img width="1038" height="420" alt="image" src="https://github.com/user-attachments/assets/096c0b2e-f9f4-4e9e-b0f6-3401674af308" />
+</br>
+</br>
+</br>
+</br>
+
+### Profit Center Posting (AP 전표)
+- Vendor Invoice 전표에서 비용 계정 기준으로 금액이 분리되어 각 Profit Center에 자동 배부되어 기록됨
+- 세금과 미지급금(Vendor Payable)도 동일한 Profit Center 기준으로 함께 분할되어 전표에 반영됨
+
+<img width="572" height="272" alt="image" src="https://github.com/user-attachments/assets/7a52d187-9533-46fa-a850-16bae34baa5b" />
+</br>
+</br>
+</br>
+</br>
+
+### 자산 회계와 손익센터
+- 자산 취득·감가상각 전표 발생 시 Profit Center가 함께 기록되어 자산 기준 수익성 분석 가능
+- 자산 마스터에 Profit Center가 없으면 Cost Center나 Order에 지정된 Profit Center 정보가 사용됨
+
+<img width="653" height="337" alt="image" src="https://github.com/user-attachments/assets/555cfa4c-9617-402b-ab0f-40be68e54bda" />
+</br>
+</br>
+</br>
+</br>
+
+### Project / WBS에서 손익센터 지정
+- Project 또는 WBS에 Profit Center를 지정하여 프로젝트 단위 수익성과 비용을 관리 가능
+- 하위 WBS에 Profit Center가 별도로 지정되면 해당 WBS 기준으로 손익센터가 적용됨
+<img width="953" height="544" alt="image" src="https://github.com/user-attachments/assets/8002247b-74b7-420d-97a2-e6b9eb8e84b8" />
+</br>
+</br>
+</br>
+</br>
+
+### 영업·생산 영역의 Profit Center 지정
+- Material Master에 지정된 Profit Center가 Sales Order나 Production Order 생성 시 기본값(Default)으로 자동 적용됨
+- 생산오더의 Profit Center는 해당 Plant의 회사코드와 동일한 Controlling Area에 속해야 하며 필요 시 변경 가능
+
+<img width="477" height="319" alt="image" src="https://github.com/user-attachments/assets/b0e12f81-d4b6-4478-bf5b-0c03f1abaa95" />
+</br>
+</br>
+</br>
+</br>
+
+### 자재마스터와 MM문서 Profit Center 다른 경우
+- 자재마스터의 Profit Center와 MM 문서가 다를 경우 Cost Center에 지정된 Profit Center가 우선 적용됨
+- 즉, 계정지정(Account Assignment)에 연결된 Cost Center의 Profit Center 정보가 전표에 반영됨
+<img width="985" height="439" alt="image" src="https://github.com/user-attachments/assets/0ffa3f93-150e-48f7-8675-9e446a63088f" />
+</br>
+</br>
+</br>
+</br>
+
+### Assignment Monitor
+- Profit Center가 각 오브젝트(Cost Center, Order, WBS 등)에 어떻게 지정되어 있는지 확인하는 모니터링 프로그램
+- T-code 1KE4 또는 Fiori Profit Center Assignment Monitor에서 손익센터 연결 상태 조회 가능
+
+<img width="557" height="390" alt="image" src="https://github.com/user-attachments/assets/79ff4e76-3003-4a65-a171-437bd4df8a08" />
+</br>
+</br>
+</br>
+</br>
