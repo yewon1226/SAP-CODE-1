@@ -536,3 +536,137 @@
 </br>
 </br>
 </br>
+
+### Manage Allocation
+- Manage Allocation 앱에서 Cost Center 비용을 다른 Cost Object로 배부(Distribution, Top-down, Assessment) 실행 가능
+- Allocation Cycle을 생성·실행하여 간접비를 조직 또는 활동 기준으로 재배부함
+
+<img width="1007" height="340" alt="image" src="https://github.com/user-attachments/assets/72e56dd1-76fb-4319-8afa-350e86cdd118" />
+</br>
+</br>
+
+<img width="1001" height="495" alt="image" src="https://github.com/user-attachments/assets/d407ad77-2250-4c66-b6f4-ff03248ae45a" />
+</br>
+</br>
+</br>
+</br>
+
+### Material Valuation
+- Material Master의 Price Control 설정에 따라 재고 단가를 Moving Average(V) 또는 Standard Price(S) 방식으로 평가함
+- V는 입고 시 평균단가 재계산, S는 일정 기간 단가 고정하며 Standard Cost Estimate 기준으로 관리됨
+
+<img width="465" height="307" alt="image" src="https://github.com/user-attachments/assets/9fae3bba-353e-4e6a-9b73-3bd2f93a746b" />
+</br>
+</br>
+</br>
+</br>
+
+### Price Determination
+- Price Determination 설정에 따라 자재 가격을 Transaction-based(2) 또는 Single/Multilevel(3) 방식으로 계산함
+- 2는 Standard Price(S)와 Moving Average(V) 모두 사용 가능하며, 3은 Standard Price(S) 기준으로 실제 원가를 계산함
+
+<img width="523" height="305" alt="image" src="https://github.com/user-attachments/assets/d5bc84fa-0357-486d-9283-932c077ba56b" />
+</br>
+</br>
+</br>
+</br>
+
+### Moving Average Price (V)
+- 자재 입고가 발생할 때마다 재고 총금액 ÷ 재고 수량으로 평균 단가를 다시 계산하는 가격 방식
+- 재고 수량이 적거나 자재문서 처리 지연 시 가격 차이로 재고 단가가 왜곡될 수 있음
+
+<img width="966" height="285" alt="image" src="https://github.com/user-attachments/assets/c282af3a-b661-424d-b805-d310a725fb81" />
+</br>
+</br>
+</br>
+</br>
+
+### Standard Price (S)
+- 자재 단가를 일정 기간 고정된 표준가격으로 사용하여 모든 거래를 동일한 가격으로 기록함
+- 실제 구매가격과 차이가 발생하면 Price Difference(가격차이) 계정에 Variance로 기록됨
+<img width="519" height="317" alt="image" src="https://github.com/user-attachments/assets/164bef0c-9e31-44cf-bb2a-e38583497b0d" />
+</br>
+</br>
+</br>
+</br>
+
+### Standard Price vs Moving Average
+- Standard Price(S) → 일정 기간 동안 동일한 표준단가로 재고를 평가하며 가격차이는 Price Difference 계정에 기록됨
+- Moving Average(V) → 입고 시마다 재고 금액과 수량 기준으로 평균단가를 재계산하여 실제 가격 변동이 재고에 반영됨
+<img width="1090" height="586" alt="image" src="https://github.com/user-attachments/assets/6a14a38b-d870-4504-b25a-520388b30e29" />
+</br>
+</br>
+</br>
+</br>
+
+### Material Cost Estimate (CK11N)
+- BOM과 Routing 기반 수량 구조(Quantity Structure)를 이용해 자재의 표준원가를 계산하는 기능
+- T-code CK11N에서 원재료, 노무비, 간접비 등을 합산하여 제품의 표준 원가 산정
+<img width="986" height="393" alt="image" src="https://github.com/user-attachments/assets/dc96d7e1-ad36-4c21-bcbb-2862e5c587bb" />
+</br>
+</br>
+</br>
+</br>
+
+### Bill of Material (BOM)
+- 제품 생산에 필요한 구성 자재와 수량을 정의한 구조로 생산관리 및 원가계산에 사용됨
+- T-code CS03에서 조회하며 생산 마스터와 CO 원가계산(Cost Estimate)에 활용됨
+
+<img width="883" height="355" alt="image" src="https://github.com/user-attachments/assets/c85a48d4-34d8-4c24-9148-ce3c8f8e7b46" />
+</br>
+</br>
+</br>
+</br>
+
+### Routing · Work Center · Cost Center 연계
+- Routing의 작업(Operation)은 Work Center와 연결되고, Work Center는 Cost Center와 연결되어 생산 원가가 계산됨
+- Activity Type과 Formula를 이용해 작업시간 × 단가 방식으로 노무비·설비비 등의 원가가 산정됨
+<img width="546" height="327" alt="image" src="https://github.com/user-attachments/assets/c1096b3a-1986-45ad-aa34-1cc1be0ccede" />
+</br>
+</br>
+</br>
+</br>
+
+### Production Version
+- Production Version은 BOM과 Routing의 조합으로 생산 방식(공정)을 정의하는 설정
+- Lot size 범위와 유효기간 기준으로 여러 생산 버전을 관리 가능
+<img width="489" height="280" alt="image" src="https://github.com/user-attachments/assets/e4b326fa-a1d3-4a3d-a474-cf6bab7719d0" />
+</br>
+</br>
+</br>
+</br>
+
+### Material Cost Estimate (Quantity Structure)
+- Costing Variant 기준으로 원가계산 기간, 수량구조(BOM·Routing), 평가일자를 설정하여 제품 표준원가를 계산함
+- 시스템이 BOM과 작업공정을 자동 반영하여 원가를 산정하며 저장 전까지 DB에는 반영되지 않음
+
+<img width="923" height="501" alt="image" src="https://github.com/user-attachments/assets/6f1d9ae3-c8dc-4713-bd50-649a8bf24205" />
+</br>
+</br>
+</br>
+</br>
+
+### Material Cost Estimate Create (CK11N)
+- T-code CK11N에서 자재와 플랜트를 입력하여 BOM·Routing 기반으로 제품 표준원가를 생성함
+- Costing Variant, 수량구조, 평가기준 등을 설정하여 원가구조와 원가요소를 계산함
+
+<img width="959" height="535" alt="image" src="https://github.com/user-attachments/assets/7404f47e-ea7b-4495-b173-76ee62ad6be4" />
+</br>
+</br>
+</br>
+</br>
+
+### Create Cost Estimate (CK11N)
+- CK11N에서 자재와 플랜트를 기준으로 원가계산을 생성하고 Costing Variant로 계산 기준을 설정함
+- 원가계산 기간(Costing Date), 수량구조 기준일, 평가일 등을 입력하여 표준원가를 산정함
+
+<img width="936" height="513" alt="image" src="https://github.com/user-attachments/assets/8eccbc56-aabe-4755-86b7-5e4ee59a1cd9" />
+</br>
+</br>
+</br>
+</br>
+
+### Mark and Release Standard Price
+- CK24에서 원가계산 결과를 표준가격(Standard Price)으로 마킹하고 Release하여 자재 표준원가로 반영함
+- Release 이후 해당 표준가격이 재고평가, 생산원가, 손익계산 등에 기준 가격으로 사용됨
+<img width="902" height="627" alt="image" src="https://github.com/user-attachments/assets/8df0e50d-53bd-4448-b6a7-5dd9f2d4fe10" />
