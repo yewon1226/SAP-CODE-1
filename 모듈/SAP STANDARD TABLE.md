@@ -72,6 +72,9 @@
 | LFA1 | 공급업체 일반 데이터 (공급업체 기본 정보 관리) |
 | LFB1 | 회사코드별 공급업체 데이터 (회사코드 기준 회계 관련 공급업체 정보 관리) |
 | LFM1 | 구매조직별 공급업체 데이터 (구매조직 기준 공급업체 구매 정보 관리) |
+| BUT000 | Business Partner 기본 데이터 (BP 번호, 유형, 이름 등 기본 정보 저장) |
+| BUT020 | Business Partner 주소 데이터 |
+| BUT100 | Business Partner Role 데이터 (Customer, Vendor 등 BP 역할 관리) |
 
 ### Purchasing (구매)
 
@@ -82,28 +85,21 @@
 | EKET | 구매오더 스케줄라인 (납기일 및 납품 일정 관리) |
 | EKBE | 구매오더 이력 (입고 및 송장 처리 이력 관리) |
 | EBAN | 구매요청(PR) 데이터 (구매요청 생성 정보 관리) |
-| EBKN | PR Account Assignment (PR의 계정 지정 정보 관리) |
 | EINA | 구매정보레코드 일반 데이터 (자재-공급업체 기본 구매정보 관리) |
 | EINE | 구매정보레코드 구매조직 데이터 (구매조직 기준 자재-공급업체 구매조건 관리) |
+
+### Invoice (송장)
+| RBKP | 송장 문서 헤더 (Invoice Verification 문서 기본 정보) |
+| RSEG | 송장 문서 아이템 (송장 자재 및 금액 정보 관리) |
 
 ### Inventory Management (재고)
 
 | Table | Description |
 |------|-------------|
-| MKPF | 자재문서 헤더 (입고/출고 등 자재 이동 문서 헤더 관리) |
-| MSEG | 자재문서 아이템 (자재 이동 상세 데이터 관리) |
 | MATDOC | S/4HANA 자재 문서 통합 테이블 |
 | MARD | 저장위치 재고 (저장위치 기준 재고 수량 관리) |
+| MCHA | Batch Master 데이터 (Batch 기본 정보 관리) |
 | MCHB | Batch 재고 (Batch 단위 자재 재고 관리) |
-| RESB | Reservation 데이터 (자재 예약 정보 관리) |
-| RKPF | Reservation Header (자재 예약 문서 헤더 관리) |
-
-### Valuation / Accounting
-
-| Table | Description |
-|------|-------------|
-| MBEW | 자재 평가 데이터 (자재 가격 및 재고 평가 관련 정보 관리) |
-| T001K | Valuation Area 설정 데이터 |
 
 ### Logistics / Plant
 
