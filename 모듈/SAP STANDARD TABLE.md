@@ -114,6 +114,16 @@
 | T001W | 플랜트 정보 (플랜트 조직 정보 관리) |
 | T001L | 저장위치 정보 (저장위치 조직 정보 관리) |
 
+### Quality Management (QM)
+
+| Table | Description | 주요 T-Code |
+|------|-------------|-------------|
+| QALS | Inspection Lot 헤더 데이터 | QA03 |
+| QAMV | 검사 특성 데이터 | QE03 |
+| QAMR | 검사 결과 데이터 | QE03 |
+| QAVE | Usage Decision 데이터 | QA11 |
+| QMAT | 자재 검사 설정 데이터 | MM03 |
+
 </br>
 </br>
 
