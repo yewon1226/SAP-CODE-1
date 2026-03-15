@@ -982,3 +982,2111 @@ ex)
 ---
 
 </br>
+
+# < SAP MM 주요 Standard Tables >
+</br>
+
+## < Material Master >
+
+### 1. MARA (Material Master – General Data)
+
+- 자재(Material)의 기본 정보(자재 유형, 단위, 그룹 등)를 저장하는 자재 마스터 일반 데이터 테이블
+
+```
+MARA (자재 기본 정보)
+        ↓
+MARC (플랜트별 자재 정보)
+        ↓
+MARD (저장 위치별 재고 정보)
+
+ex)
+자재번호 : MAT-10001
+자재유형 : FERT
+자재그룹 : COSMETIC
+기본단위 : EA
+```
+
+| Field | Type | Description | Example |
+|------|------|-------------|---------|
+| MANDT | CLNT(3) | 클라이언트 | 100 |
+| MATNR | CHAR(18) | 자재 번호 | MAT-10001 |
+| MTART | CHAR(4) | 자재 유형 | FERT |
+| MATKL | CHAR(9) | 자재 그룹 | COSMETIC |
+| MEINS | UNIT(3) | 기본 단위 | EA |
+| ERSDA | DATS | 생성 날짜 | 20260301 |
+| ERNAM | CHAR(12) | 생성 사용자 | SAPUSER |
+| BISMT | CHAR(18) | 이전 자재 번호 | OLD-10001 |
+| BRGEW | QUAN(13,3) | 총 중량 | 0.500 |
+| NTGEW | QUAN(13,3) | 순 중량 | 0.450 |
+| GEWEI | UNIT(3) | 중량 단위 | KG |
+| VOLUM | QUAN(13,3) | 부피 | 0.001 |
+| VOLEH | UNIT(3) | 부피 단위 | M3 |
+| SPART | CHAR(2) | 제품군 | 01 |
+| XCHPF | CHAR(1) | Batch 관리 여부 | X |
+| LVORM | CHAR(1) | 삭제 표시 |  |
+
+</br>
+
+### 2. MARC (Material Master – Plant Data)
+
+- 플랜트(Plant) 기준으로 자재의 관리 정보(MRP, 생산, 구매 등)를 저장하는 자재 마스터 테이블
+
+```
+자재번호 : MAT-10001
+플랜트 : 1100
+MRP 유형 : PD
+최소 재고 : 100
+구매 그룹 : 001
+```
+
+| Field | Type | Description | Example |
+|------|------|-------------|---------|
+| MANDT | CLNT(3) | 클라이언트 | 100 |
+| MATNR | CHAR(18) | 자재 번호 | MAT-10001 |
+| WERKS | CHAR(4) | 플랜트 | 1100 |
+| DISMM | CHAR(2) | MRP 유형 | PD |
+| DISPO | CHAR(3) | MRP 담당자 | 001 |
+| DISLS | CHAR(2) | Lot Size | EX |
+| BESKZ | CHAR(1) | 조달 유형 (내부/외부 생산) | E |
+| SOBSL | CHAR(2) | Special Procurement |  |
+| PLIFZ | NUMC(3) | 구매 리드타임 | 005 |
+| WEBAZ | NUMC(3) | 입고 처리 시간 | 001 |
+| MINBE | QUAN(13,3) | 최소 재고 | 100 |
+| MABST | QUAN(13,3) | 최대 재고 | 1000 |
+| LGPRO | CHAR(4) | 생산 저장 위치 | 0001 |
+| EKGRP | CHAR(3) | 구매 그룹 | 001 |
+| MMSTA | CHAR(2) | 자재 상태 | 01 |
+
+</br>
+
+### 3. MARD (Material Master – Storage Location Data)
+
+- 플랜트 내 저장위치(Storage Location) 기준으로 자재의 재고 수량 정보를 저장하는 자재 재고 테이블
+
+```
+자재번호 : MAT-10001
+플랜트 : 1100
+저장위치 : 0001
+사용가능 재고 : 500 EA
+```
+
+| Field | Type | Description | Example |
+|------|------|-------------|---------|
+| MANDT | CLNT(3) | 클라이언트 | 100 |
+| MATNR | CHAR(18) | 자재 번호 | MAT-10001 |
+| WERKS | CHAR(4) | 플랜트 | 1100 |
+| LGORT | CHAR(4) | 저장 위치 | 0001 |
+| LABST | QUAN(13,3) | 사용 가능 재고(Unrestricted Stock) | 500 |
+| UMLME | QUAN(13,3) | 이동 중 재고 | 50 |
+| INSME | QUAN(13,3) | 검사 중 재고 | 20 |
+| SPEME | QUAN(13,3) | Blocked 재고 | 10 |
+| LGPBE | CHAR(10) | Storage Bin | BIN-01 |
+| LFGJA | NUMC(4) | 마지막 재고 변경 연도 | 2026 |
+| LFMON | NUMC(2) | 마지막 재고 변경 월 | 03 |
+
+</br>
+
+### 4. MBEW (Material Valuation)
+
+- 자재의 평가 정보(평가가격, 이동평균가, 표준가격 등 자재 원가)를 저장하는 자재 평가 테이블
+
+```
+자재번호 : MAT-10001
+플랜트 : 1100
+표준가격 : 12,000
+총 재고 수량 : 500
+총 재고 금액 : 5,900,00
+```
+
+| Field | Type | Description | Example |
+|------|------|-------------|---------|
+| MANDT | CLNT(3) | 클라이언트 | 100 |
+| MATNR | CHAR(18) | 자재 번호 | MAT-10001 |
+| BWKEY | CHAR(4) | 평가 영역 (보통 Plant) | 1100 |
+| BWTAR | CHAR(10) | 평가 유형 |  |
+| STPRS | CURR(13,2) | 표준 가격 (Standard Price) | 12000 |
+| VERPR | CURR(13,2) | 이동 평균 가격 (Moving Average Price) | 11800 |
+| PEINH | DEC(5) | 가격 단위 | 1 |
+| VPRSV | CHAR(1) | 가격 결정 방법 (S:표준, V:이동평균) | S |
+| LBKUM | QUAN(13,3) | 총 재고 수량 | 500 |
+| SALK3 | CURR(13,2) | 총 재고 금액 | 5900000 |
+| LFGJA | NUMC(4) | 마지막 재고 변경 연도 | 2026 |
+| LFMON | NUMC(2) | 마지막 재고 변경 월 | 03 |
+
+</br>
+
+### 5. MARM (Material Units of Measure)
+
+- 자재(Material)의 기본 단위 외에 추가 단위(BOX, KG 등)와 단위 변환 비율을 저장하는 테이블
+
+```
+MARA (자재 기본 정보 / 기본 단위)
+        ↓
+MARM (대체 단위 및 단위 변환 정보)
+
+ex)
+자재번호 : MAT-10001
+기본단위 : EA
+대체단위 : BOX
+변환비율 : 1 BOX = 10 EA
+```
+
+| Field | Type | Description | Example |
+|------|------|-------------|---------|
+| MANDT | CLNT(3) | 클라이언트 | 100 |
+| MATNR | CHAR(18) | 자재 번호 | MAT-10001 |
+| MEINH | UNIT(3) | 대체 단위 | BOX |
+| UMREZ | DEC(5) | 변환 분자 | 10 |
+| UMREN | DEC(5) | 변환 분모 | 1 |
+| EAN11 | CHAR(18) | 바코드 번호 | 8801234567890 |
+| NUMTP | CHAR(2) | 바코드 유형 | E1 |
+| LAENG | QUAN(13,3) | 길이 | 10 |
+| BREIT | QUAN(13,3) | 너비 | 5 |
+| HOEHE | QUAN(13,3) | 높이 | 3 |
+| MEABM | UNIT(3) | 치수 단위 | CM |
+
+</br>
+</br>
+</br>
+
+## < Vendor Master >
+
+### 1. LFA1 (Vendor Master – General Data)
+- 공급업체(Vendor)의 기본 정보(이름, 주소, 국가, 연락처 등)를 저장하는 공급업체 마스터 일반 데이터 테이블
+
+```
+LFA1 (공급업체 기본 정보)
+        ↓
+LFB1 (회사코드 기준 공급업체 정보)
+        ↓
+LFM1 (구매조직 기준 공급업체 정보)
+
+ex)
+공급업체번호 : 100000
+공급업체명 : COSMETIC SUPPLIER
+국가 : KR
+도시 : SEOUL
+전화번호 : 0212345678
+```
+
+| Field | Type | Description | Example |
+|------|------|-------------|---------|
+| MANDT | CLNT(3) | 클라이언트 | 100 |
+| LIFNR | CHAR(10) | 공급업체 번호 | 100000 |
+| NAME1 | CHAR(35) | 공급업체 이름 | COSMETIC SUPPLIER |
+| NAME2 | CHAR(35) | 공급업체 추가 이름 | KOREA BRANCH |
+| LAND1 | CHAR(3) | 국가 코드 | KR |
+| ORT01 | CHAR(35) | 도시 | SEOUL |
+| PSTLZ | CHAR(10) | 우편번호 | 04524 |
+| STRAS | CHAR(35) | 주소 | TEHERAN-RO |
+| TELF1 | CHAR(16) | 전화번호 | 0212345678 |
+| STCD1 | CHAR(16) | 사업자 등록번호 | 1234567890 |
+| KTOKK | CHAR(4) | 공급업체 계정 그룹 | ZVEN |
+| LOEVM | CHAR(1) | 삭제 플래그 |  |
+| SPERR | CHAR(1) | 거래 차단 여부 |  |
+
+</br>
+
+### 2. LFB1 (Vendor Master – Company Code Data)
+
+- 회사코드 기준으로 공급업체의 회계 정보(지불조건, 통화, 채무 관리 등)를 저장하는 공급업체 회계 마스터 테이블
+
+```
+LFA1 (공급업체 기본 정보)
+        ↓
+LFB1 (회사코드 기준 회계 정보)
+        ↓
+LFM1 (구매조직 기준 구매 정보)
+
+ex)
+공급업체번호 : 100000
+회사코드 : 1000
+지불조건 : 0001
+통화 : KRW
+연결 G/L 계정 : 300000
+```
+
+| Field | Type | Description | Example |
+|------|------|-------------|---------|
+| MANDT | CLNT(3) | 클라이언트 | 100 |
+| LIFNR | CHAR(10) | 공급업체 번호 | 100000 |
+| BUKRS | CHAR(4) | 회사코드 | 1000 |
+| AKONT | CHAR(10) | 연결 G/L 계정 (Recon Account) | 300000 |
+| ZTERM | CHAR(4) | 지불 조건 | 0001 |
+| ZWELS | CHAR(10) | 지불 방법 | T |
+| WAERS | CUKY(5) | 통화 | KRW |
+| ZUAWA | CHAR(3) | 정산 기준 | 001 |
+| BUSAB | CHAR(4) | 회계 담당자 | AP01 |
+| LOEVM | CHAR(1) | 삭제 표시 |  |
+| SPERR | CHAR(1) | 회계 차단 |  |
+
+</br>
+
+### 3. LFM1 (Vendor Master – Purchasing Organization Data)
+
+- 구매조직(Purchasing Organization) 기준으로 공급업체의 구매 관련 정보(구매 담당자, 통화, Incoterms 등)를 저장하는 공급업체 구매 마스터 테이블
+
+```
+LFA1 (공급업체 기본 정보)
+        ↓
+LFB1 (회사코드 기준 회계 정보)
+        ↓
+LFM1 (구매조직 기준 구매 정보)
+
+ex)
+공급업체번호 : 100000
+구매조직 : 1000
+구매그룹 : 001
+통화 : KRW
+Incoterms : FOB BUSAN
+```
+
+| Field | Type | Description | Example |
+|------|------|-------------|---------|
+| MANDT | CLNT(3) | 클라이언트 | 100 |
+| LIFNR | CHAR(10) | 공급업체 번호 | 100000 |
+| EKORG | CHAR(4) | 구매조직 | 1000 |
+| EKGRP | CHAR(3) | 구매 그룹 | 001 |
+| WAERS | CUKY(5) | 구매 통화 | KRW |
+| ZTERM | CHAR(4) | 지불 조건 | 0001 |
+| INCO1 | CHAR(3) | Incoterms (운송 조건) | FOB |
+| INCO2 | CHAR(28) | Incoterms 위치 | BUSAN |
+| VERKF | CHAR(30) | 공급업체 담당자 | Kim |
+| TELF1 | CHAR(16) | 담당자 전화번호 | 0212345678 |
+| LOEVM | CHAR(1) | 삭제 표시 |  |
+| SPERM | CHAR(1) | 구매 차단 여부 |  |
+
+</br>
+
+### 4. BUT000 (Business Partner – General Data)
+
+- SAP S/4HANA에서 Business Partner(BP)의 기본 정보(이름, 유형, 생성일 등)를 저장하는 마스터 데이터 테이블
+
+```
+BUT000 (Business Partner 기본 정보)
+        ↓
+LFA1 (Vendor 데이터)
+        ↓
+KNA1 (Customer 데이터)
+
+ex)
+BP 번호 : 100000
+BP 유형 : Organization
+이름 : COSMETIC SUPPLIER
+생성일 : 20260310
+```
+
+| Field | Type | Description | Example |
+|------|------|-------------|---------|
+| MANDT | CLNT(3) | 클라이언트 | 100 |
+| PARTNER | CHAR(10) | Business Partner 번호 | 100000 |
+| TYPE | CHAR(1) | BP 유형 (Person/Organization/Group) | 2 |
+| BU_GROUP | CHAR(4) | BP 그룹 | ZVEN |
+| NAME_ORG1 | CHAR(40) | 조직 이름 | COSMETIC SUPPLIER |
+| NAME_ORG2 | CHAR(40) | 추가 조직 이름 | KOREA BRANCH |
+| NAME_FIRST | CHAR(40) | 이름 (Person) | JAEHWAN |
+| NAME_LAST | CHAR(40) | 성 (Person) | KIM |
+| BIRTHDT | DATS | 생년월일 | 19990101 |
+| CREATED_BY | CHAR(12) | 생성 사용자 | SAPUSER |
+| CREATED_ON | DATS | 생성 날짜 | 20260310 |
+| CHANGED_BY | CHAR(12) | 변경 사용자 | SAPUSER |
+| CHANGED_ON | DATS | 변경 날짜 | 20260311 |
+| XDELE | CHAR(1) | 삭제 표시 |  |
+
+</br>
+
+### 5. BUT020 (Business Partner – Address Data)
+
+- Business Partner(BP)의 주소 정보(주소 번호, 기본 주소 여부 등)를 저장하는 테이블
+
+```
+BUT000 (BP 기본 정보)
+        ↓
+BUT020 (BP 주소 정보)
+        ↓
+ADR* 테이블 (상세 주소 정보)
+
+ex)
+BP 번호 : 100000
+주소 번호 : 0000123456
+기본 주소 : X
+유효기간 : 20200101 ~ 99991231
+```
+
+| Field | Type | Description | Example |
+|------|------|-------------|---------|
+| MANDT | CLNT(3) | 클라이언트 | 100 |
+| PARTNER | CHAR(10) | Business Partner 번호 | 100000 |
+| ADDRNUMBER | CHAR(10) | 주소 번호 | 0000123456 |
+| ADDR_VALID_FROM | DATS | 주소 유효 시작일 | 20200101 |
+| ADDR_VALID_TO | DATS | 주소 유효 종료일 | 99991231 |
+| XDFADR | CHAR(1) | 기본 주소 여부 | X |
+| NATION | CHAR(1) | 국가 버전 |  |
+| DATE_FROM | DATS | 주소 시작일 | 20200101 |
+| DATE_TO | DATS | 주소 종료일 | 99991231 |
+
+</br>
+
+### 6. BUT100 (Business Partner – Roles)
+
+- Business Partner(BP)가 어떤 역할(Role)을 가지는지 저장하는 테이블  
+(예: Customer, Vendor, Employee 등)
+
+```
+BUT000 (BP 기본 정보)
+        ↓
+BUT100 (BP 역할 정보)
+        ↓
+LFA1 / KNA1 (Vendor / Customer 데이터)
+
+ex)
+BP 번호 : 100000
+역할 : FLVN00 (Supplier)
+유효기간 : 20200101 ~ 99991231
+```
+
+| BP Role | Meaning |
+|--------|--------|
+| FLVN00 | Supplier (FI Vendor) |
+| FLVN01 | Supplier (Purchasing) |
+| FLCU00 | Customer (FI) |
+| FLCU01 | Customer (Sales) |
+| BUP001 | Contact Person |
+| BUP003 | Employee |
+
+| Field | Type | Description | Example |
+|------|------|-------------|---------|
+| MANDT | CLNT(3) | 클라이언트 | 100 |
+| PARTNER | CHAR(10) | Business Partner 번호 | 100000 |
+| RLTYP | CHAR(6) | BP 역할 유형 | FLVN00 |
+| VALID_FROM | DATS | 역할 시작일 | 20200101 |
+| VALID_TO | DATS | 역할 종료일 | 99991231 |
+| CREATED_BY | CHAR(12) | 생성 사용자 | SAPUSER |
+| CREATED_ON | DATS | 생성 날짜 | 20260310 |
+| CHANGED_BY | CHAR(12) | 변경 사용자 | SAPUSER |
+| CHANGED_ON | DATS | 변경 날짜 | 20260311 |
+
+</br>
+</br>
+</br>
+
+## < Purchasing (구매) >
+
+### 1. EKKO (Purchasing Document Header)
+
+- 구매오더(PO) 등의 구매 문서 헤더 정보(공급업체, 구매조직, 통화, 생성일 등)를 저장하는 MM 구매 헤더 테이블
+
+```
+PR (EBAN)
+      ↓
+PO Header (EKKO)
+      ↓
+PO Item (EKPO)
+
+ex)
+PO 번호 : 4500001234
+공급업체 : 100000
+구매조직 : 1000
+통화 : KRW
+생성일 : 20260310
+```
+
+| Field | Type | Description | Example |
+|------|------|-------------|---------|
+| MANDT | CLNT(3) | 클라이언트 | 100 |
+| EBELN | CHAR(10) | 구매 문서 번호 (PO 번호) | 4500001234 |
+| BSTYP | CHAR(1) | 구매 문서 유형 | F |
+| BSART | CHAR(4) | 구매 문서 타입 | NB |
+| LIFNR | CHAR(10) | 공급업체 번호 | 100000 |
+| EKORG | CHAR(4) | 구매 조직 | 1000 |
+| EKGRP | CHAR(3) | 구매 그룹 | 001 |
+| BUKRS | CHAR(4) | 회사 코드 | 1000 |
+| WAERS | CUKY(5) | 통화 | KRW |
+| BEDAT | DATS | 문서 생성일 | 20260310 |
+| ERNAM | CHAR(12) | 생성 사용자 | SAPUSER |
+| KDATB | DATS | 유효 시작일 | 20260310 |
+| KDATE | DATS | 유효 종료일 | 20260331 |
+| INCO1 | CHAR(3) | Incoterms | FOB |
+| INCO2 | CHAR(28) | Incoterms 위치 | BUSAN |
+
+</br>
+
+### 2. EKPO (Purchasing Document Item)
+
+- 구매오더(PO)의 **품목(Item) 단위 정보**(자재, 수량, 가격 등)를 저장하는 MM 구매 문서 아이템 테이블
+
+```
+PR (EBAN)
+      ↓
+PO Header (EKKO)
+      ↓
+PO Item (EKPO)
+      ↓
+GR (MSEG / MATDOC)
+
+ex)
+PO 번호 : 4500001234
+품목 : 00010
+자재 : MAT-10001
+수량 : 100 EA
+가격 : 12,000
+납기일 : 20260320
+```
+
+| Field | Type | Description | Example |
+|------|------|-------------|---------|
+| MANDT | CLNT(3) | 클라이언트 | 100 |
+| EBELN | CHAR(10) | 구매 문서 번호 (PO) | 4500001234 |
+| EBELP | NUMC(5) | 구매 문서 품목 번호 | 00010 |
+| MATNR | CHAR(18) | 자재 번호 | MAT-10001 |
+| WERKS | CHAR(4) | 플랜트 | 1100 |
+| LGORT | CHAR(4) | 저장 위치 | 0001 |
+| MENGE | QUAN(13,3) | 주문 수량 | 100 |
+| MEINS | UNIT(3) | 주문 단위 | EA |
+| NETPR | CURR(11,2) | 순 가격 | 12000 |
+| PEINH | DEC(5) | 가격 단위 | 1 |
+| BPRME | UNIT(3) | 주문 가격 단위 | EA |
+| EINDT | DATS | 납기일 | 20260320 |
+| ELIKZ | CHAR(1) | 납품 완료 표시 |  |
+| LOEKZ | CHAR(1) | 삭제 표시 |  |
+
+</br>
+
+### 3. EKET (Purchasing Document Schedule Line)
+
+- 구매오더(PO) 품목의 납기 일정(Schedule Line: 납기일, 수량 등)을 저장하는 MM 스케줄 라인 테이블
+
+```
+PR (EBAN)
+      ↓
+PO Header (EKKO)
+      ↓
+PO Item (EKPO)
+      ↓
+Schedule Line (EKET)
+      ↓
+GR (MSEG / MATDOC)
+
+ex)
+PO 번호 : 4500001234
+품목 : 00010
+스케줄 라인 : 0001
+납기일 : 20260320
+납품 예정 수량 : 100
+```
+
+| Field | Type | Description | Example |
+|------|------|-------------|---------|
+| MANDT | CLNT(3) | 클라이언트 | 100 |
+| EBELN | CHAR(10) | 구매 문서 번호 (PO) | 4500001234 |
+| EBELP | NUMC(5) | 구매 문서 품목 번호 | 00010 |
+| ETENR | NUMC(4) | 스케줄 라인 번호 | 0001 |
+| EINDT | DATS | 납기일 | 20260320 |
+| MENGE | QUAN(13,3) | 납품 예정 수량 | 100 |
+| WEMNG | QUAN(13,3) | 입고된 수량 | 50 |
+| DABMG | QUAN(13,3) | 납품 완료 수량 | 100 |
+| LPEIN | DEC(5) | 가격 단위 | 1 |
+| FIXKZ | CHAR(1) | 납기 고정 여부 | X |
+| BEDAT | DATS | 문서 생성일 | 20260310 |
+
+</br>
+
+### 4. EKBE (Purchasing Document History)
+
+- 구매오더(PO)의 이력 정보(입고, 송장, 반품 등 구매 문서와 관련된 모든 후속 처리 기록)를 저장하는 MM 구매 이력 테이블
+
+```
+PR (EBAN)
+↓
+PO Header (EKKO)
+↓
+PO Item (EKPO)
+↓
+Schedule Line (EKET)
+↓
+PO History (EKBE)
+↓
+GR (MSEG / MATDOC) / Invoice (RBKP, RSEG)
+
+ex)
+PO 번호 : 4500001234  
+품목 : 00010  
+이력 유형 : GR (Goods Receipt)  
+입고 수량 : 100  
+문서 번호 : 5000012345
+```
+
+| Field | Type | Description | Example |
+|------|------|-------------|---------|
+| MANDT | CLNT(3) | 클라이언트 | 100 |
+| EBELN | CHAR(10) | 구매 문서 번호 (PO) | 4500001234 |
+| EBELP | NUMC(5) | 구매 문서 품목 번호 | 00010 |
+| ZEKKN | NUMC(2) | 계정 지정 번호 | 01 |
+| VGABE | CHAR(1) | 이력 유형 (GR, Invoice 등) | 1 |
+| BELNR | CHAR(10) | 문서 번호 | 5000012345 |
+| GJAHR | NUMC(4) | 회계 연도 | 2026 |
+| BUZEI | NUMC(3) | 문서 아이템 번호 | 001 |
+| BUDAT | DATS | 전기일 | 20260320 |
+| MENGE | QUAN(13,3) | 수량 | 100 |
+| DMBTR | CURR(13,2) | 금액 | 1200000 |
+| WAERS | CUKY(5) | 통화 | KRW |
+| SHKZG | CHAR(1) | 차변/대변 구분 | S |
+</br>
+
+### 5. EBAN (Purchase Requisition)
+- 구매요청(PR)의 품목(Item) 정보(요청 자재, 수량, 요청일, 플랜트 등)를 저장하는 MM 구매요청 테이블
+
+```
+PR Item (EBAN)
+↓
+PO Header (EKKO)
+↓
+PO Item (EKPO)
+↓
+Schedule Line (EKET)
+↓
+PO History (EKBE)
+
+ex)
+PR 번호 : 1000001234  
+PR 품목 : 00010  
+자재 : MAT-10001  
+요청 수량 : 100  
+요청 플랜트 : 1100  
+```
+
+| Field | Type | Description | Example |
+|------|------|-------------|---------|
+| MANDT | CLNT(3) | 클라이언트 | 100 |
+| BANFN | CHAR(10) | 구매요청 번호 (PR) | 1000001234 |
+| BNFPO | NUMC(5) | 구매요청 품목 번호 | 00010 |
+| MATNR | CHAR(18) | 자재 번호 | MAT-10001 |
+| WERKS | CHAR(4) | 플랜트 | 1100 |
+| LGORT | CHAR(4) | 저장 위치 | 0001 |
+| MENGE | QUAN(13,3) | 요청 수량 | 100 |
+| MEINS | UNIT(3) | 기본 단위 | EA |
+| BADAT | DATS | PR 생성일 | 20260310 |
+| LFDAT | DATS | 요청 납기일 | 20260320 |
+| EKGRP | CHAR(3) | 구매 그룹 | 001 |
+| ERNAM | CHAR(12) | 생성 사용자 | SAPUSER |
+| LOEKZ | CHAR(1) | 삭제 표시 |  |
+
+</br>
+
+### 6. EINA (Purchasing Info Record – General Data)
+- 공급업체와 자재 간의 구매 정보 레코드(Info Record) 기본 정보를 저장하는 MM 테이블  
+  (어떤 공급업체가 어떤 자재를 공급하는지 관리)
+
+```
+Vendor (LFA1)
+↓
+Material (MARA)
+↓
+Purchasing Info Record (EINA)
+↓
+Purchasing Org Data (EINE)
+↓
+PO (EKKO / EKPO)
+
+ex)
+Info Record : 5300000123  
+공급업체 : 100000  
+자재 : MAT-10001
+```
+
+| Field | Type | Description | Example |
+|------|------|-------------|---------|
+| MANDT | CLNT(3) | 클라이언트 | 100 |
+| INFNR | CHAR(10) | 구매 정보 레코드 번호 | 5300000123 |
+| LIFNR | CHAR(10) | 공급업체 번호 | 100000 |
+| MATNR | CHAR(18) | 자재 번호 | MAT-10001 |
+| ERDAT | DATS | 생성 날짜 | 20260310 |
+| ERNAM | CHAR(12) | 생성 사용자 | SAPUSER |
+| LOEKZ | CHAR(1) | 삭제 표시 |  |
+| URZLA | CHAR(1) | 출처 표시 |  |
+| IDNLF | CHAR(35) | 공급업체 자재 번호 | SUP-MAT-01 |
+
+</br>
+
+### 7. EINE (Purchasing Info Record – Purchasing Organization Data)
+- 구매 정보 레코드(Info Record)의 구매조직 기준 구매 조건 정보 
+  (가격, 통화, Incoterms, 최소 주문 수량 등)을 저장하는 MM 테이블
+
+```
+Vendor (LFA1)
+↓
+Material (MARA)
+↓
+Purchasing Info Record (EINA)
+↓
+Purchasing Org Data (EINE)
+↓
+PO (EKKO / EKPO)
+
+ex)
+Info Record : 5300000123  
+구매조직 : 1000  
+구매 가격 : 12,000  
+통화 : KRW  
+최소 주문 수량 : 100
+```
+
+| Field | Type | Description | Example |
+|------|------|-------------|---------|
+| MANDT | CLNT(3) | 클라이언트 | 100 |
+| INFNR | CHAR(10) | 구매 정보 레코드 번호 | 5300000123 |
+| EKORG | CHAR(4) | 구매 조직 | 1000 |
+| ESOKZ | CHAR(1) | 구매 정보 유형 | 0 |
+| NETPR | CURR(11,2) | 순 가격 | 12000 |
+| WAERS | CUKY(5) | 통화 | KRW |
+| PEINH | DEC(5) | 가격 단위 | 1 |
+| MOQTY | QUAN(13,3) | 최소 주문 수량 | 100 |
+| INCO1 | CHAR(3) | Incoterms | FOB |
+| INCO2 | CHAR(28) | Incoterms 위치 | BUSAN |
+| LOEKZ | CHAR(1) | 삭제 표시 |  |
+
+</br>
+</br>
+</br>
+
+## < Invoice (송장) >
+
+### 1. RBKP (Invoice Document Header)
+
+- 송장(Invoice) 문서의 헤더 정보(송장번호, 공급업체, 금액, 전기일 등)를 저장하는 MM 송장 헤더 테이블
+
+```
+PR (EBAN)
+      ↓
+PO (EKKO / EKPO)
+      ↓
+GR (MSEG / MATDOC)
+      ↓
+RBKP (송장 헤더)
+      ↓
+RSEG (송장 품목)
+
+ex)
+송장번호 : 5100001234  
+공급업체 : 100000  
+송장금액 : 1,200,000  
+통화 : KRW  
+전기일 : 20260321
+```
+
+| Field | Type | Description | Example |
+|------|------|-------------|---------|
+| MANDT | CLNT(3) | 클라이언트 | 100 |
+| BELNR | CHAR(10) | 송장 문서 번호 | 5100001234 |
+| GJAHR | NUMC(4) | 회계 연도 | 2026 |
+| BUKRS | CHAR(4) | 회사 코드 | 1000 |
+| LIFNR | CHAR(10) | 공급업체 번호 | 100000 |
+| BLDAT | DATS | 송장 문서일 | 20260321 |
+| BUDAT | DATS | 전기일 | 20260321 |
+| CPUDT | DATS | 입력 날짜 | 20260321 |
+| USNAM | CHAR(12) | 입력 사용자 | SAPUSER |
+| WAERS | CUKY(5) | 통화 | KRW |
+| RMWWR | CURR(13,2) | 송장 총 금액 | 1200000 |
+| XBLNR | CHAR(16) | 참조 송장 번호 | INV-2026-001 |
+
+</br>
+
+### 2. RSEG (Invoice Document Item)
+- 송장(Invoice)의 품목(Item) 단위 정보(PO 품목, 수량, 금액 등)를 저장하는 MM 송장 아이템 테이블
+
+```
+PR (EBAN)
+      ↓
+PO (EKKO / EKPO)
+      ↓
+GR (MSEG / MATDOC)
+      ↓
+RBKP (송장 헤더)
+      ↓
+RSEG (송장 품목)
+
+ex)
+송장번호 : 5100001234  
+품목 : 001  
+PO 번호 : 4500001234  
+자재 : MAT-10001  
+수량 : 100 EA  
+금액 : 1,200,000
+```
+
+| Field | Type | Description | Example |
+|------|------|-------------|---------|
+| MANDT | CLNT(3) | 클라이언트 | 100 |
+| BELNR | CHAR(10) | 송장 문서 번호 | 5100001234 |
+| GJAHR | NUMC(4) | 회계 연도 | 2026 |
+| BUZEI | NUMC(3) | 송장 품목 번호 | 001 |
+| EBELN | CHAR(10) | 구매 문서 번호 (PO) | 4500001234 |
+| EBELP | NUMC(5) | 구매 문서 품목 번호 | 00010 |
+| MATNR | CHAR(18) | 자재 번호 | MAT-10001 |
+| WERKS | CHAR(4) | 플랜트 | 1100 |
+| MENGE | QUAN(13,3) | 송장 수량 | 100 |
+| MEINS | UNIT(3) | 단위 | EA |
+| WRBTR | CURR(13,2) | 송장 금액 | 1200000 |
+| WAERS | CUKY(5) | 통화 | KRW |
+
+</br>
+</br>
+</br>
+
+## < Inventory Management (재고) >
+
+### 1. MATDOC (Material Document)
+
+- S/4HANA에서 자재 이동(Goods Movement) 발생 시 생성되는 **Inventory Management 핵심 테이블**로, 입고(GR), 출고(GI), 재고이동 등 모든 재고 변동을 기록
+
+```
+PO (EKKO / EKPO)
+      ↓
+Goods Receipt (MATDOC 생성)
+      ↓
+재고 증가 (MARD / MBEW 반영)
+
+ex)
+자재문서 : 5000001234  
+자재 : MAT-10001  
+이동유형 : 101 (입고)  
+수량 : 100 EA  
+플랜트 : 1100  
+저장위치 : 0001
+```
+
+| Field | Type | Description | Example |
+|------|------|-------------|---------|
+| MANDT | CLNT(3) | 클라이언트 | 100 |
+| MBLNR | CHAR(10) | 자재 문서 번호 | 5000001234 |
+| MJAHR | NUMC(4) | 자재 문서 연도 | 2026 |
+| ZEILE | NUMC(4) | 문서 품목 번호 | 0001 |
+| MATNR | CHAR(18) | 자재 번호 | MAT-10001 |
+| WERKS | CHAR(4) | 플랜트 | 1100 |
+| LGORT | CHAR(4) | 저장 위치 | 0001 |
+| BWART | CHAR(3) | 이동 유형 (Movement Type) | 101 |
+| SHKZG | CHAR(1) | 차변/대변 구분 | S |
+| BUDAT | DATS | 전기일 | 20260320 |
+| CPUDT | DATS | 입력 날짜 | 20260320 |
+| MENGE | QUAN(13,3) | 이동 수량 | 100 |
+| MEINS | UNIT(3) | 기본 단위 | EA |
+| DMBTR | CURR(13,2) | 금액 | 1200000 |
+| WAERS | CUKY(5) | 통화 | KRW |
+| EBELN | CHAR(10) | 구매 문서 번호 (PO) | 4500001234 |
+| EBELP | NUMC(5) | 구매 문서 품목 | 00010 |
+| LIFNR | CHAR(10) | 공급업체 | 100000 |
+| CHARG | CHAR(10) | Batch 번호 | BATCH001 |
+
+</br>
+
+### 2. MARD (Storage Location Stock)
+
+- 플랜트 내 저장위치(Storage Location) 기준으로 자재의 재고 수량을 관리하는 Inventory Management 재고 테이블
+
+```
+MATDOC (자재 이동 발생)
+      ↓
+재고 수량 변경
+      ↓
+MARD (저장위치 재고 반영)
+
+ex)
+자재 : MAT-10001  
+플랜트 : 1100  
+저장위치 : 0001  
+사용가능 재고 : 500 EA  
+검사중 재고 : 20 EA  
+Blocked 재고 : 10 EA
+```
+
+| Field | Type | Description | Example |
+|------|------|-------------|---------|
+| MANDT | CLNT(3) | 클라이언트 | 100 |
+| MATNR | CHAR(18) | 자재 번호 | MAT-10001 |
+| WERKS | CHAR(4) | 플랜트 | 1100 |
+| LGORT | CHAR(4) | 저장 위치 | 0001 |
+| LABST | QUAN(13,3) | 사용 가능 재고(Unrestricted Stock) | 500 |
+| UMLME | QUAN(13,3) | 이동 중 재고 (Stock in Transfer) | 50 |
+| INSME | QUAN(13,3) | 검사 중 재고 (Quality Inspection Stock) | 20 |
+| SPEME | QUAN(13,3) | Blocked 재고 | 10 |
+| LFGJA | NUMC(4) | 마지막 재고 변경 연도 | 2026 |
+| LFMON | NUMC(2) | 마지막 재고 변경 월 | 03 |
+
+
+</br>
+
+### 3. MCHA (Batch Master)
+
+- 자재의 배치(Batch) 정보를 저장하는 테이블로, 동일 자재라도 생산일·유통기한 등 배치별 특성을 관리
+
+```
+Material (MARA)
+      ↓
+Batch 생성 (MCHA)
+      ↓
+재고 관리 (MCHB / MATDOC)
+
+ex)
+자재 : MAT-10001  
+배치 : BATCH001  
+플랜트 : 1100  
+제조일 : 20260301  
+유통기한 : 20270301
+```
+
+| Field | Type | Description | Example |
+|------|------|-------------|---------|
+| MANDT | CLNT(3) | 클라이언트 | 100 |
+| MATNR | CHAR(18) | 자재 번호 | MAT-10001 |
+| CHARG | CHAR(10) | 배치 번호 | BATCH001 |
+| WERKS | CHAR(4) | 플랜트 | 1100 |
+| ERSDA | DATS | 배치 생성일 | 20260310 |
+| ERNAM | CHAR(12) | 생성 사용자 | SAPUSER |
+| HSDAT | DATS | 제조일 | 20260301 |
+| VFDAT | DATS | 유통기한 | 20270301 |
+| ZUSCH | CHAR(1) | 배치 상태 | A |
+
+</br>
+
+### 4. MCHB (Batch Stock)
+
+- 자재의 배치(Batch) 기준 재고 수량을 저장하는 Inventory Management 테이블  
+(같은 자재라도 Batch별로 재고를 따로 관리)
+
+```
+MARA (자재)
+      ↓
+MCHA (Batch 정보)
+      ↓
+MCHB (Batch별 재고)
+      ↓
+MATDOC (자재 이동 기록)
+
+ex)
+자재 : MAT-10001  
+Batch : BATCH001  
+플랜트 : 1100  
+저장위치 : 0001  
+사용가능 재고 : 300 EA  
+검사중 재고 : 50 EA
+```
+
+| Field | Type | Description | Example |
+|------|------|-------------|---------|
+| MANDT | CLNT(3) | 클라이언트 | 100 |
+| MATNR | CHAR(18) | 자재 번호 | MAT-10001 |
+| WERKS | CHAR(4) | 플랜트 | 1100 |
+| LGORT | CHAR(4) | 저장 위치 | 0001 |
+| CHARG | CHAR(10) | Batch 번호 | BATCH001 |
+| CLABS | QUAN(13,3) | 사용 가능 재고 | 300 |
+| CINSM | QUAN(13,3) | 품질 검사 재고 | 50 |
+| CSPEM | QUAN(13,3) | Blocked 재고 | 10 |
+| CEINM | QUAN(13,3) | 입고 예정 수량 | 40 |
+| LFGJA | NUMC(4) | 마지막 재고 변경 연도 | 2026 |
+| LFMON | NUMC(2) | 마지막 재고 변경 월 | 03 |
+
+</br>
+</br>
+</br>
+
+## < Logistics / Plant >
+
+### 1. T001W (Plant)
+- SAP에서 플랜트(Plant) 조직 정보를 저장하는 Logistics 조직구조 테이블  
+(생산, 재고, 구매, 판매 등 물류 활동이 수행되는 기본 단위)
+
+```
+Company Code (T001)
+        ↓
+Plant (T001W)
+        ↓
+Storage Location (T001L)
+
+ex)
+플랜트 : 1100  
+플랜트 이름 : SEOUL PLANT  
+회사코드 : 1000  
+국가 : KR  
+도시 : SEOUL
+```
+
+| Field | Type | Description | Example |
+|------|------|-------------|---------|
+| MANDT | CLNT(3) | 클라이언트 | 100 |
+| WERKS | CHAR(4) | 플랜트 코드 | 1100 |
+| NAME1 | CHAR(30) | 플랜트 이름 | SEOUL PLANT |
+| BWKEY | CHAR(4) | 평가 영역 | 1100 |
+| BUKRS | CHAR(4) | 회사 코드 | 1000 |
+| ADRNR | CHAR(10) | 주소 번호 | 0000123456 |
+| LAND1 | CHAR(3) | 국가 코드 | KR |
+| REGIO | CHAR(3) | 지역 | 11 |
+| PSTLZ | CHAR(10) | 우편번호 | 04524 |
+| ORT01 | CHAR(35) | 도시 | SEOUL |
+
+</br>
+
+### 2. T001L (Storage Location)
+- 플랜트(Plant) 내에서 자재를 실제로 보관하는 저장위치(Storage Location) 정보를 저장하는 Logistics 조직 테이블
+
+```
+Company Code (T001)
+        ↓
+Plant (T001W)
+        ↓
+Storage Location (T001L)
+        ↓
+Stock (MARD)
+
+ex)
+플랜트 : 1100  
+저장위치 : 0001  
+저장위치 이름 : MAIN WAREHOUSE  
+회사코드 : 1000
+```
+
+| Field | Type | Description | Example |
+|------|------|-------------|---------|
+| MANDT | CLNT(3) | 클라이언트 | 100 |
+| WERKS | CHAR(4) | 플랜트 | 1100 |
+| LGORT | CHAR(4) | 저장 위치 | 0001 |
+| LGOBE | CHAR(16) | 저장 위치 이름 | MAIN WAREHOUSE |
+| BUKRS | CHAR(4) | 회사 코드 | 1000 |
+| XBLGO | CHAR(1) | 음수 재고 허용 여부 |  |
+| XLONG | CHAR(1) | 저장 위치 활성화 여부 | X |
+| KUNNR | CHAR(10) | 고객 번호 (특수 재고) |  |
+| LIFNR | CHAR(10) | 공급업체 번호 (특수 재고) |  |
+
+</br>
+</br>
+</br>
+
+
+## < Quality Management (QM) >
+
+### 1. QALS (Inspection Lot)
+- 품질 검사 시 생성되는 검사 Lot(Inspection Lot) 기본 정보를 저장하는 QM 핵심 테이블  
+(GR 검사, 공정 검사, 출하 검사 등 모든 품질검사의 기준 문서)
+
+```
+PO (EKKO / EKPO)
+      ↓
+Goods Receipt (MATDOC)
+      ↓
+Inspection Lot 생성 (QALS)
+      ↓
+품질 검사 수행
+      ↓
+Usage Decision (품질 승인/불량)
+
+ex)
+Inspection Lot : 100000123456  
+자재 : MAT-10001  
+플랜트 : 1100  
+Batch : BATCH001  
+검사 수량 : 100 EA  
+PO : 4500001234
+```
+
+| Field | Type | Description | Example |
+|------|------|-------------|---------|
+| MANDT | CLNT(3) | 클라이언트 | 100 |
+| PRUEFLOS | CHAR(12) | 검사 Lot 번호 | 100000123456 |
+| MATNR | CHAR(18) | 자재 번호 | MAT-10001 |
+| WERKS | CHAR(4) | 플랜트 | 1100 |
+| CHARG | CHAR(10) | Batch 번호 | BATCH001 |
+| HERKUNFT | CHAR(2) | 검사 Lot 생성 유형 (Inspection Origin) | 01 |
+| ERSTELDAT | DATS | 검사 Lot 생성일 | 20260320 |
+| MENGE | QUAN(13,3) | 검사 대상 수량 | 100 |
+| MEINS | UNIT(3) | 단위 | EA |
+| STAT35 | CHAR(1) | 사용 결정 완료 여부 | X |
+| LIFNR | CHAR(10) | 공급업체 | 100000 |
+| EBELN | CHAR(10) | 구매 문서 번호 | 4500001234 |
+| EBELP | NUMC(5) | 구매 문서 품목 | 00010 |
+
+</br>
+
+### 2. QAMV (Inspection Characteristic Results)
+- 검사 Lot에서 수행되는 검사 항목(Characteristic) 정보를 저장하는 QM 테이블  
+(각 검사 항목의 목표값, 검사 방식, 허용 범위 등)
+
+```
+Goods Receipt (MATDOC)
+      ↓
+Inspection Lot 생성 (QALS)
+      ↓
+Inspection Characteristics (QAMV)
+      ↓
+Inspection Results (QASE)
+
+ex)
+Inspection Lot : 100000123456  
+검사 항목 : pH Level  
+목표값 : 7.0  
+허용 범위 : 6.5 ~ 7.5  
+샘플 수량 : 10
+```
+
+| Field | Type | Description | Example |
+|------|------|-------------|---------|
+| MANDT | CLNT(3) | 클라이언트 | 100 |
+| PRUEFLOS | CHAR(12) | 검사 Lot 번호 | 100000123456 |
+| VORGLFNR | NUMC(4) | 검사 작업 번호 | 0010 |
+| MERKNR | NUMC(4) | 검사 항목 번호 | 0001 |
+| MERKBEZ | CHAR(40) | 검사 항목 설명 | pH Level |
+| SOLLWERT | CHAR(20) | 목표 값 | 7.0 |
+| UNTOL | CHAR(10) | 최소 허용 값 | 6.5 |
+| OBERTOL | CHAR(10) | 최대 허용 값 | 7.5 |
+| PRUEFMETHODE | CHAR(8) | 검사 방법 | PH_TEST |
+| STICHPR | QUAN(13,3) | 샘플 수량 | 10 |
+
+</br>
+
+### 3. AMR (Inspection Result)
+- 검사 Lot에서 수행된 실제 검사 결과값(Result)을 저장하는 QM 테이블  
+(검사 항목별 측정값, 합격/불합격 판단 등)
+
+```
+Goods Receipt (MATDOC)
+      ↓
+Inspection Lot 생성 (QALS)
+      ↓
+Inspection Characteristic (QAMV)
+      ↓
+Inspection Result 저장 (QAMR)
+      ↓
+Usage Decision
+
+ex)
+Inspection Lot : 100000123456  
+검사 항목 : pH Level  
+측정값 : 7.1  
+판정 : 합격 (A)  
+검사자 : QMUSER
+```
+
+| Field | Type | Description | Example |
+|------|------|-------------|---------|
+| MANDT | CLNT(3) | 클라이언트 | 100 |
+| PRUEFLOS | CHAR(12) | 검사 Lot 번호 | 100000123456 |
+| VORGLFNR | NUMC(4) | 검사 작업 번호 | 0010 |
+| MERKNR | NUMC(4) | 검사 항목 번호 | 0001 |
+| PRUEFER | CHAR(12) | 검사 수행자 | QMUSER |
+| ISTWERT | CHAR(20) | 실제 측정값 | 7.1 |
+| KURZTEXT | CHAR(40) | 검사 결과 설명 | OK |
+| BEWERTUNG | CHAR(1) | 결과 평가 (합격/불합격) | A |
+| ERDAT | DATS | 결과 입력일 | 20260321 |
+
+</br>
+
+### 4. QAVE (Usage Decision)
+- 검사 Lot에 대한 최종 사용결정(Usage Decision) 결과를 저장하는 QM 테이블  
+(검사 결과에 따라 승인, 조건부 승인, 폐기 등의 판정을 기록)
+
+```
+Goods Receipt (MATDOC)
+      ↓
+Inspection Lot 생성 (QALS)
+      ↓
+Inspection Characteristics (QAMV)
+      ↓
+Inspection Results (QAMR)
+      ↓
+Usage Decision (QAVE)
+
+ex)
+Inspection Lot : 100000123456  
+사용결정 : Accepted  
+승인 수량 : 100 EA  
+불량 수량 : 0 EA  
+결정자 : QMUSER
+```
+
+| Field | Type | Description | Example |
+|------|------|-------------|---------|
+| MANDT | CLNT(3) | 클라이언트 | 100 |
+| PRUEFLOS | CHAR(12) | 검사 Lot 번호 | 100000123456 |
+| VCODE | CHAR(4) | 사용결정 코드 | A001 |
+| VKATART | CHAR(1) | 카탈로그 유형 | A |
+| VTEXT | CHAR(40) | 사용결정 설명 | Accepted |
+| ERSTELLER | CHAR(12) | 사용결정 수행자 | QMUSER |
+| ERDAT | DATS | 사용결정 날짜 | 20260321 |
+| VEGRU | CHAR(3) | 사용결정 그룹 | UD1 |
+| LMENGE | QUAN(13,3) | 승인 수량 | 100 |
+| AMENGE | QUAN(13,3) | 불량 수량 | 0 |
+
+</br>
+
+### 5. QMAT (Inspection Setup for Material)
+- 자재(Material)에 대해 어떤 품질검사를 수행할지 정의하는 **검사 설정(Inspection Setup)** 정보를 저장하는 QM 테이블
+
+```
+Material (MARA)
+      ↓
+Inspection Setup (QMAT)
+      ↓
+Goods Receipt 발생
+      ↓
+Inspection Lot 생성 (QALS)
+      ↓
+품질 검사 수행
+
+ex)
+자재 : MAT-10001  
+플랜트 : 1100  
+검사 유형 : 01 (GR Inspection)  
+검사 활성화 : X
+```
+
+| Field | Type | Description | Example |
+|------|------|-------------|---------|
+| MANDT | CLNT(3) | 클라이언트 | 100 |
+| MATNR | CHAR(18) | 자재 번호 | MAT-10001 |
+| WERKS | CHAR(4) | 플랜트 | 1100 |
+| ART | CHAR(2) | 검사 유형 (Inspection Type) | 01 |
+| AKTIV | CHAR(1) | 검사 활성화 여부 | X |
+| STICHPRVER | CHAR(8) | 샘플링 절차 | SPC001 |
+| DYNREGEL | CHAR(4) | 동적 수정 규칙 | DR01 |
+| ERSTELLER | CHAR(12) | 생성 사용자 | QMUSER |
+| ERDAT | DATS | 생성 날짜 | 20260301 |
+
+</br>
+</br>
+
+---
+
+</br>
+
+# < SAP PP 주요 Standard Tables >
+</br>
+
+## < Production Order >
+
+### 1. AFKO (Production Order Header)
+- 생산오더(Production Order)의 헤더 정보(생산 자재, 수량, 일정 등)를 저장하는 PP 생산오더 헤더 테이블
+
+```
+MRP 실행
+      ↓
+Production Order 생성 (AFKO)
+      ↓
+Operation 정보 (AFVC)
+      ↓
+Component 예약 (RESB)
+      ↓
+Goods Issue
+      ↓
+Goods Receipt (MATDOC)
+
+ex)
+생산오더 : 5000012345  
+자재 : MAT-10001  
+플랜트 : 1100  
+생산 수량 : 1000 EA  
+계획 시작일 : 20260320  
+계획 종료일 : 20260325
+```
+
+| Field | Type | Description | Example |
+|------|------|-------------|---------|
+| MANDT | CLNT(3) | 클라이언트 | 100 |
+| AUFNR | CHAR(12) | 생산 오더 번호 | 5000012345 |
+| AUART | CHAR(4) | 오더 유형 | PP01 |
+| MATNR | CHAR(18) | 생산 자재 | MAT-10001 |
+| WERKS | CHAR(4) | 플랜트 | 1100 |
+| GAMNG | QUAN(13,3) | 생산 총 수량 | 1000 |
+| GMEIN | UNIT(3) | 생산 단위 | EA |
+| GSTRP | DATS | 계획 시작일 | 20260320 |
+| GLTRP | DATS | 계획 종료일 | 20260325 |
+| DISPO | CHAR(3) | MRP 담당자 | 001 |
+| RSNUM | NUMC(10) | 예약 번호 | 2000003456 |
+
+</br>
+
+### 2. AFPO (Production Order Item)
+- 생산오더의 품목(Item) 정보를 저장하는 PP 테이블로, 생산 자재·수량·플랜트·판매오더 연계 등 생산 대상 정보를 관리
+
+```
+MRP 실행
+      ↓
+Production Order 생성 (AFKO)
+      ↓
+Production Order Item (AFPO)
+      ↓
+Component 예약 (RESB)
+      ↓
+Goods Issue
+      ↓
+Goods Receipt (MATDOC)
+
+ex)
+생산오더 : 5000012345  
+품목 : 0001  
+자재 : MAT-10001  
+플랜트 : 1100  
+생산 수량 : 1000 EA  
+입고 수량 : 500 EA
+```
+
+| Field | Type | Description | Example |
+|------|------|-------------|---------|
+| MANDT | CLNT(3) | 클라이언트 | 100 |
+| AUFNR | CHAR(12) | 생산 오더 번호 | 5000012345 |
+| POSNR | NUMC(4) | 오더 품목 번호 | 0001 |
+| MATNR | CHAR(18) | 생산 자재 | MAT-10001 |
+| WERKS | CHAR(4) | 플랜트 | 1100 |
+| PSMNG | QUAN(13,3) | 생산 오더 수량 | 1000 |
+| WEMNG | QUAN(13,3) | 입고 완료 수량 | 500 |
+| MEINS | UNIT(3) | 기본 단위 | EA |
+| DWERK | CHAR(4) | 납품 플랜트 | 1100 |
+| LGORT | CHAR(4) | 저장 위치 | 0001 |
+| CHARG | CHAR(10) | Batch 번호 | BATCH001 |
+| KDAUF | CHAR(10) | 판매 오더 번호 | 6000001234 |
+| KDPOS | NUMC(6) | 판매 오더 품목 | 000010 |
+| DAUAT | CHAR(4) | 오더 유형 | PP01 |
+
+</br>
+
+### 3. AFVC (Production Order Operation)
+- 생산오더의 공정(Operation) 정보를 저장하는 PP 테이블로, 작업순서·워크센터·공정번호 등 생산 작업 단위를 관리
+
+```
+Production Order (AFKO)
+      ↓
+Production Order Item (AFPO)
+      ↓
+Operations (AFVC)
+      ↓
+Component Reservation (RESB)
+      ↓
+Confirmation (AFRU)
+      ↓
+Goods Receipt (MATDOC)
+
+ex)
+생산오더 : 5000012345  
+공정 : 0010  
+공정 설명 : Mixing  
+플랜트 : 1100  
+워크센터 : MIX_LINE_01
+```
+
+| Field | Type | Description | Example |
+|------|------|-------------|---------|
+| MANDT | CLNT(3) | 클라이언트 | 100 |
+| AUFPL | NUMC(10) | 작업 계획 번호 (Routing 연결 키) | 1000123456 |
+| APLZL | NUMC(8) | 공정 내부 카운터 | 00000001 |
+| VORNR | CHAR(4) | 공정 번호 | 0010 |
+| LTXA1 | CHAR(40) | 공정 설명 | Mixing |
+| ARBID | NUMC(8) | Work Center 내부 ID | 50000123 |
+| WERKS | CHAR(4) | 플랜트 | 1100 |
+| STEUS | CHAR(4) | 제어 키 (Control Key) | PP01 |
+| LAR01 | CHAR(6) | 활동 유형 | LABOR |
+| OBJNR | CHAR(22) | 오브젝트 번호 | OR000500001234 |
+
+</br>
+
+### 4. AFVV (Operation Quantities / Times)
+- 생산오더 공정(Operation)의 시간·수량 관련 정보(가동시간, 준비시간, 작업시간 등)를 저장하는 PP 테이블
+
+```
+Production Order (AFKO)
+      ↓
+Operation (AFVC)
+      ↓
+Operation Time / Quantity (AFVV)
+      ↓
+Confirmation (AFRU)
+
+ex)
+생산오더 : 5000012345  
+공정 : 0010  
+준비시간 : 1.5 H  
+가동시간 : 4.0 H  
+작업시간 : 3.0 H
+```
+
+| Field | Type | Description | Example |
+|------|------|-------------|---------|
+| MANDT | CLNT(3) | 클라이언트 | 100 |
+| AUFPL | NUMC(10) | 작업 계획 번호 | 1000123456 |
+| APLZL | NUMC(8) | 공정 내부 카운터 | 00000001 |
+| VGE01 | QUAN(13,3) | 준비 시간 (Setup Time) | 1.5 |
+| VGE02 | QUAN(13,3) | 가동 시간 (Machine Time) | 4.0 |
+| VGE03 | QUAN(13,3) | 작업 시간 (Labor Time) | 3.0 |
+| VGW01 | QUAN(13,3) | 준비 작업 값 | 1.5 |
+| VGW02 | QUAN(13,3) | 가동 작업 값 | 4.0 |
+| VGW03 | QUAN(13,3) | 작업 값 | 3.0 |
+| MEINH | UNIT(3) | 시간 단위 | H |
+
+</br>
+
+### 5. AUFK (Order Master Data)
+- 생산오더·내부오더 등 오더의 기본 마스터 정보(오더 유형, 생성일, 상태 등)를 저장하는 CO/PP 공통 오더 마스터 테이블
+
+```
+Order Master (AUFK)
+      ↓
+Production Order Header (AFKO)
+      ↓
+Production Order Item (AFPO)
+      ↓
+Operations (AFVC)
+
+ex)
+오더번호 : 5000012345  
+오더유형 : PP01  
+플랜트 : 1100  
+오더 설명 : Cosmetic Production  
+생성일 : 20260320
+```
+
+| Field | Type | Description | Example |
+|------|------|-------------|---------|
+| MANDT | CLNT(3) | 클라이언트 | 100 |
+| AUFNR | CHAR(12) | 오더 번호 | 5000012345 |
+| AUART | CHAR(4) | 오더 유형 | PP01 |
+| ERDAT | DATS | 오더 생성일 | 20260320 |
+| ERNAM | CHAR(12) | 생성 사용자 | SAPUSER |
+| KTEXT | CHAR(40) | 오더 설명 | Cosmetic Production |
+| WERKS | CHAR(4) | 플랜트 | 1100 |
+| KOSTV | CHAR(10) | 책임 코스트센터 | CC1000 |
+| OBJNR | CHAR(22) | 오브젝트 번호 | OR000500001234 |
+| PHAS0 | CHAR(1) | 오더 생성 상태 | X |
+| PHAS1 | CHAR(1) | 오더 릴리즈 상태 | X |
+| PHAS2 | CHAR(1) | 오더 완료 상태 |  |
+
+</br>
+</br>
+</br>
+
+## < BOM (Bill of Material) >
+
+### 1. STKO (BOM Header)
+- BOM(Bill of Material)의 헤더 정보를 저장하는 PP 테이블로, 어떤 자재의 BOM인지와 사용 용도, 유효기간 등을 관리
+
+```
+Material (MARA)
+      ↓
+BOM Header (STKO)
+      ↓
+BOM Item (STPO)
+      ↓
+Production Order (AFKO)
+
+ex)
+자재 : MAT-10001  
+BOM 번호 : 00001234  
+대안 BOM : 01  
+기준 수량 : 1 EA  
+유효 시작일 : 20260301
+```
+
+| Field | Type | Description | Example |
+|------|------|-------------|---------|
+| MANDT | CLNT(3) | 클라이언트 | 100 |
+| STLTY | CHAR(1) | BOM 카테고리 | M |
+| STLNR | CHAR(8) | BOM 번호 | 00001234 |
+| STLAL | CHAR(2) | BOM 대안(Alternative BOM) | 01 |
+| DATUV | DATS | 유효 시작일 | 20260301 |
+| AENNR | CHAR(12) | 변경 번호 | ECN00001 |
+| BMENG | QUAN(13,3) | 기준 수량 | 1 |
+| BMEIN | UNIT(3) | 기준 단위 | EA |
+| STLAN | CHAR(1) | BOM 사용 용도 | 1 |
+| STKTX | CHAR(40) | BOM 설명 | Lipstick BOM |
+
+</br>
+
+### 2. STPO (BOM Item)
+- BOM(Bill of Material)의 구성 품목(Component) 정보를 저장하는 PP 테이블로, 생산에 필요한 원자재·부품 목록과 수량을 관리
+
+```
+Material (MARA)
+      ↓
+BOM Header (STKO)
+      ↓
+BOM Item (STPO)
+      ↓
+Production Order 생성 (AFKO)
+
+ex)
+완제품 : MAT-10001  
+구성 자재 : MAT-20001  
+필요 수량 : 2 EA  
+BOM Item : 0010
+```
+
+| Field | Type | Description | Example |
+|------|------|-------------|---------|
+| MANDT | CLNT(3) | 클라이언트 | 100 |
+| STLTY | CHAR(1) | BOM 카테고리 | M |
+| STLNR | CHAR(8) | BOM 번호 | 00001234 |
+| STLKN | NUMC(8) | BOM Item Node 번호 | 00000001 |
+| POSNR | NUMC(4) | BOM Item 번호 | 0010 |
+| IDNRK | CHAR(18) | 구성 자재 번호 | MAT-20001 |
+| MENGE | QUAN(13,3) | 필요 수량 | 2 |
+| MEINS | UNIT(3) | 단위 | EA |
+| POSTP | CHAR(1) | 품목 유형 (Item Category) | L |
+| DATUV | DATS | 유효 시작일 | 20260301 |
+
+</br>
+
+### 3. MAST (Material to BOM Link)
+- 자재(Material)와 BOM(Bill of Material)을 연결하는 테이블로, 어떤 자재가 어떤 BOM을 사용하는지와 플랜트 기준 BOM 정보를 관리
+
+```
+Material (MARA)
+      ↓
+Material ↔ BOM 연결 (MAST)
+      ↓
+BOM Header (STKO)
+      ↓
+BOM Item (STPO)
+      ↓
+Production Order 생성 (AFKO)
+
+ex)
+자재 : MAT-10001  
+플랜트 : 1100  
+BOM 번호 : 00001234  
+대안 BOM : 01  
+BOM 사용 : 생산용
+```
+
+| Field | Type | Description | Example |
+|------|------|-------------|---------|
+| MANDT | CLNT(3) | 클라이언트 | 100 |
+| MATNR | CHAR(18) | 자재 번호 | MAT-10001 |
+| WERKS | CHAR(4) | 플랜트 | 1100 |
+| STLAN | CHAR(1) | BOM 사용 용도 | 1 |
+| STLNR | CHAR(8) | BOM 번호 | 00001234 |
+| STLAL | CHAR(2) | 대안 BOM | 01 |
+| LOSVN | QUAN(13,3) | 최소 Lot Size | 1 |
+| LOSBS | QUAN(13,3) | 최대 Lot Size | 1000 |
+
+</br>
+</br>
+</br>
+
+## < Routing (제품을 생산하기 위한 작업 순서와 공정 정보를 정의한 생산 공정 데이터) >
+
+### 1. PLKO (Routing Header)
+- Routing의 헤더 정보를 저장하는 PP 테이블로, 어떤 자재가 어떤 공정(Routing)을 사용하는지와 기본 정보(플랜트, 사용용도 등)를 관리
+
+```
+Material (MARA)
+      ↓
+Routing Header (PLKO)
+      ↓
+Routing Operation (PLPO)
+      ↓
+Production Order 생성 (AFKO)
+
+ex)
+자재 : MAT-10001  
+Routing 그룹 : 00001234  
+플랜트 : 1100  
+유효 시작일 : 20260301  
+Routing 설명 : Lipstick Production Routing
+```
+
+| Field | Type | Description | Example |
+|------|------|-------------|---------|
+| MANDT | CLNT(3) | 클라이언트 | 100 |
+| PLNTY | CHAR(1) | Task List 타입 (Routing 등) | N |
+| PLNNR | CHAR(8) | Routing 그룹 번호 | 00001234 |
+| PLNAL | CHAR(2) | Routing 그룹 카운터 | 01 |
+| WERKS | CHAR(4) | 플랜트 | 1100 |
+| DATUV | DATS | 유효 시작일 | 20260301 |
+| AENNR | CHAR(12) | 변경 번호 | ECN00001 |
+| VERWE | CHAR(1) | 사용 용도 | 1 |
+| STATU | CHAR(1) | 상태 | 4 |
+| KTEXT | CHAR(40) | Routing 설명 | Lipstick Production Routing |
+
+</br>
+
+### 2. PLPO (Routing Operation)
+- Routing의 공정(Operation) 정보를 저장하는 PP 테이블로, 각 공정 단계와 작업내용·워크센터·소요시간 등을 관리
+
+```
+Material (MARA)
+      ↓
+Routing Header (PLKO)
+      ↓
+Routing Operation (PLPO)
+      ↓
+Production Order 생성 (AFKO)
+
+ex)
+Routing 그룹 : 00001234  
+공정 : 0010  
+공정 설명 : Mixing  
+워크센터 : MIX_LINE_01  
+준비시간 : 1.5 H  
+가동시간 : 4.0 H  
+작업시간 : 3.0 H
+```
+
+| Field | Type | Description | Example |
+|------|------|-------------|---------|
+| MANDT | CLNT(3) | 클라이언트 | 100 |
+| PLNTY | CHAR(1) | Task List 타입 | N |
+| PLNNR | CHAR(8) | Routing 그룹 번호 | 00001234 |
+| PLNAL | CHAR(2) | Routing 그룹 카운터 | 01 |
+| VORNR | CHAR(4) | 공정 번호 | 0010 |
+| ARBID | NUMC(8) | Work Center 내부 ID | 50000123 |
+| LTXA1 | CHAR(40) | 공정 설명 | Mixing |
+| STEUS | CHAR(4) | 제어 키 (Control Key) | PP01 |
+| VGW01 | QUAN(13,3) | 준비 시간 | 1.5 |
+| VGW02 | QUAN(13,3) | 가동 시간 | 4.0 |
+| VGW03 | QUAN(13,3) | 작업 시간 | 3.0 |
+| MEINH | UNIT(3) | 시간 단위 | H |
+
+</br>
+
+### 3. MAPL (Material ↔ Routing Link)
+- 자재(Material)와 Routing(Task List)을 연결하는 테이블로, 어떤 자재가 어떤 Routing을 사용하는지 관리
+
+```
+Material (MARA)  
+      ↓  
+Material ↔ Routing 연결 (MAPL)  
+      ↓  
+Routing Header (PLKO)  
+      ↓  
+Routing Operation (PLPO)  
+      ↓  
+Production Order 생성 (AFKO)
+
+ex)
+자재 : MAT-10001  
+플랜트 : 1100  
+Routing 그룹 : 00001234  
+Routing 카운터 : 01  
+유효 시작일 : 20260301 
+```
+
+| Field | Type | Description | Example |
+|------|------|-------------|---------|
+| MANDT | CLNT(3) | 클라이언트 | 100 |
+| MATNR | CHAR(18) | 자재 번호 | MAT-10001 |
+| WERKS | CHAR(4) | 플랜트 | 1100 |
+| PLNTY | CHAR(1) | Task List 타입 | N |
+| PLNNR | CHAR(8) | Routing 그룹 번호 | 00001234 |
+| PLNAL | CHAR(2) | Routing 그룹 카운터 | 01 |
+| LOSVN | QUAN(13,3) | 최소 Lot Size | 1 |
+| LOSBS | QUAN(13,3) | 최대 Lot Size | 1000 |
+| DATUV | DATS | 유효 시작일 | 20260301 |
+
+</br>
+</br>
+</br>
+
+## < MRP / Planning >
+
+### 1. MDKP (MRP Document Header)
+- MRP 실행 시 생성되는 MRP 문서의 헤더 정보를 저장하는 테이블로, 어떤 플랜트에서 언제 MRP가 실행되었는지 관리
+
+```
+Material (MARA)
+      ↓
+MRP 실행
+      ↓
+MRP Document Header (MDKP)
+      ↓
+MRP Planning Elements (MDTB / MDVM)
+
+ex)
+MRP 문서 : 0000123456  
+플랜트 : 1100  
+MRP 담당자 : 001  
+실행 날짜 : 20260321  
+실행 시간 : 10:30:15
+```
+
+| Field | Type | Description | Example |
+|------|------|-------------|---------|
+| MANDT | CLNT(3) | 클라이언트 | 100 |
+| DTNUM | NUMC(10) | MRP 문서 번호 | 0000123456 |
+| WERKS | CHAR(4) | 플랜트 | 1100 |
+| DISPO | CHAR(3) | MRP 담당자 | 001 |
+| DATUM | DATS | MRP 실행 날짜 | 20260321 |
+| UZEIT | TIMS(6) | MRP 실행 시간 | 103015 |
+| ERNAM | CHAR(12) | 생성 사용자 | MRP_RUN |
+| PLSCN | NUMC(3) | 시뮬레이션 번호 | 000 |
+| PLMOD | CHAR(1) | 계획 모드 | 1 |
+
+</br>
+
+### 2. MDTB (MRP Planning Elements)
+- MRP 실행 결과 생성되는 MRP 계획 요소(Planning Elements) 정보를 저장하는 테이블로, 자재의 수요·공급 계획 데이터를 관리
+
+```
+Material (MARA)
+      ↓
+MRP 실행
+      ↓
+MRP Document Header (MDKP)
+      ↓
+MRP Planning Elements (MDTB)
+      ↓
+PR 생성 (EBAN) / Production Order 생성 (AFKO)
+
+ex)
+MRP 문서 : 0000123456  
+자재 : MAT-10001  
+플랜트 : 1100  
+계획 수량 : 1000 EA  
+MRP 요소 : PA (Planned Order)
+```
+
+| Field | Type | Description | Example |
+|------|------|-------------|---------|
+| MANDT | CLNT(3) | 클라이언트 | 100 |
+| DTNUM | NUMC(10) | MRP 문서 번호 | 0000123456 |
+| MATNR | CHAR(18) | 자재 번호 | MAT-10001 |
+| WERKS | CHAR(4) | 플랜트 | 1100 |
+| BEDAT | DATS | 계획 생성일 | 20260321 |
+| MNG01 | QUAN(13,3) | 계획 수량 | 1000 |
+| MEINS | UNIT(3) | 단위 | EA |
+| DELKZ | CHAR(2) | MRP 요소 유형 | PA |
+| BANFN | CHAR(10) | 구매요청 번호 | 1000001234 |
+| AUFNR | CHAR(12) | 생산 오더 번호 | 5000012345 |
+
+</br>
+</br>
+</br>
+
+## < Production Execution (생산계획(PP)에서 만든 생산오더를 실제로 작업하고 결과를 기록하는 단계) >
+
+### 1. AFRU (Confirmation)
+- 생산오더 공정(Operation)에 대한 작업 완료 확인(Confirmation) 정보를 저장하는 PP Production Execution 테이블  
+(작업 완료 시간, 생산 수량, 불량 수량 등 기록)
+
+```
+Production Order (AFKO)
+      ↓
+Operations (AFVC)
+      ↓
+Operation Time (AFVV)
+      ↓
+Confirmation (AFRU)
+      ↓
+Goods Receipt (MATDOC)
+
+ex)
+생산오더 : 5000012345  
+공정 : 0010  
+생산 수량 : 900 EA  
+불량 수량 : 100 EA
+전기일 : 20260322
+```
+
+| Field | Type | Description | Example |
+|------|------|-------------|---------|
+| MANDT | CLNT(3) | 클라이언트 | 100 |
+| RUECK | NUMC(10) | 확인 번호 (Confirmation Number) | 0000123456 |
+| RMZHL | NUMC(8) | 확인 카운터 | 00000001 |
+| AUFNR | CHAR(12) | 생산 오더 번호 | 5000012345 |
+| VORNR | CHAR(4) | 공정 번호 | 0010 |
+| WERKS | CHAR(4) | 플랜트 | 1100 |
+| ARBID | NUMC(8) | Work Center 내부 ID | 50000123 |
+| BUDAT | DATS | 전기일 | 20260322 |
+| ISM01 | QUAN(13,3) | 실제 생산 수량 | 900 |
+| XMNGA | QUAN(13,3) | 불량 수량 | 100 |
+| MEINH | UNIT(3) | 단위 | EA |
+| ERNAM | CHAR(12) | 입력 사용자 | PROD_USER |
+
+</br>
+
+### 2. CRHD (Work Center Header)
+- 생산 공정에서 사용되는 워크센터(Work Center)의 기본 정보를 저장하는 PP 테이블  
+(작업장, 설비, 생산라인 등 생산 작업이 수행되는 장소)
+
+```
+Work Center (CRHD)
+      ↓
+Routing Operation (PLPO)
+      ↓
+Production Order Operation (AFVC)
+      ↓
+Confirmation (AFRU)
+
+ex)
+워크센터 : MIX_LINE  
+플랜트 : 1100  
+설명 : Mixing Line  
+애플리케이션 : PP
+```
+
+| Field | Type | Description | Example |
+|------|------|-------------|---------|
+| MANDT | CLNT(3) | 클라이언트 | 100 |
+| OBJID | NUMC(8) | Work Center 내부 ID | 50000123 |
+| ARBPL | CHAR(8) | Work Center 코드 | MIX_LINE |
+| WERKS | CHAR(4) | 플랜트 | 1100 |
+| VERWE | CHAR(1) | 사용 용도 | 1 |
+| KTEXT | CHAR(40) | Work Center 설명 | Mixing Line |
+| KAPPL | CHAR(2) | 애플리케이션 | PP |
+| LVORM | CHAR(1) | 삭제 표시 |  |
+| AEDAT | DATS | 마지막 변경일 | 20260320 |
+
+</br>
+
+### 3. CRCA (Work Center Capacity Allocation)
+- 워크센터(Work Center)에 할당된 Capacity(작업 가능 능력) 정보를 저장하는 PP 테이블  
+(작업장에 몇 명/몇 시간/얼마의 생산능력이 있는지 관리)
+
+```
+Work Center (CRHD)
+      ↓
+Capacity Allocation (CRCA)
+      ↓
+Routing (PLPO)
+      ↓
+Production Order (AFKO)
+      ↓
+Operation Scheduling
+
+ex)
+워크센터 : MIX_LINE  
+플랜트 : 1100  
+Capacity : 8 H  
+Capacity Category : Machine
+```
+
+| Field | Type | Description | Example |
+|------|------|-------------|---------|
+| MANDT | CLNT(3) | 클라이언트 | 100 |
+| OBJID | NUMC(8) | Work Center 내부 ID | 50000123 |
+| KAPID | NUMC(8) | Capacity ID | 70000001 |
+| WERKS | CHAR(4) | 플랜트 | 1100 |
+| KAPART | CHAR(3) | Capacity Category | 001 |
+| KAPAZ | QUAN(13,3) | 가용 Capacity | 8 |
+| MEINS | UNIT(3) | Capacity 단위 | H |
+| DATUV | DATS | 유효 시작일 | 20260301 |
+
+</br>
+</br>
+
+---
+
+</br>
+
+# < SAP SD 주요 Standard Tables >
+
+</br>
+
+## < Sales Document (판매 문서) >
+
+### 1. VBAK (Sales Document Header)
+- 판매 문서(Sales Order, Quotation 등)의 헤더 정보를 저장하는 SD 핵심 테이블  
+(고객, 판매조직, 문서유형, 주문일 등 판매 문서의 기본 정보 관리)
+
+```
+Customer (KNA1)  
+      ↓  
+Sales Order 생성 (VBAK)  
+      ↓  
+Sales Order Item (VBAP)  
+      ↓  
+Delivery (LIKP / LIPS)  
+      ↓  
+Billing (VBRK / VBRP)
+
+ex)
+판매문서 : 6000001234  
+문서유형 : OR (Sales Order)  
+고객 : 200000  
+판매조직 : 1000  
+주문금액 : 1,500,000 KRW
+```
+
+| Field | Type | Description | Example |
+|------|------|-------------|---------|
+| MANDT | CLNT(3) | 클라이언트 | 100 |
+| VBELN | CHAR(10) | 판매 문서 번호 | 6000001234 |
+| AUART | CHAR(4) | 판매 문서 유형 | OR |
+| VKORG | CHAR(4) | 판매 조직 | 1000 |
+| VTWEG | CHAR(2) | 유통 채널 | 10 |
+| SPART | CHAR(2) | 제품군 | 00 |
+| ERDAT | DATS | 문서 생성일 | 20260325 |
+| ERNAM | CHAR(12) | 생성 사용자 | SDUSER |
+| KUNNR | CHAR(10) | 고객 번호 | 200000 |
+| NETWR | CURR(15,2) | 총 주문 금액 | 1500000 |
+| WAERK | CUKY(5) | 통화 | KRW |
+
+</br>
+
+### 2. VBAP (Sales Document Item)
+- 판매 문서(Sales Order 등)의 품목(Item) 정보를 저장하는 SD 핵심 테이블  
+(판매 자재, 주문 수량, 플랜트 등 판매 품목 데이터를 관리)
+
+```
+Customer (KNA1)
+      ↓
+Sales Order Header (VBAK)
+      ↓
+Sales Order Item (VBAP)
+      ↓
+Delivery (LIKP / LIPS)
+      ↓
+Billing (VBRK / VBRP)
+
+ex)
+판매문서 : 6000001234  
+품목 : 000010  
+자재 : MAT-10001  
+주문 수량 : 100 EA  
+플랜트 : 1100
+```
+
+| Field | Type | Description | Example |
+|------|------|-------------|---------|
+| MANDT | CLNT(3) | 클라이언트 | 100 |
+| VBELN | CHAR(10) | 판매 문서 번호 | 6000001234 |
+| POSNR | NUMC(6) | 판매 문서 품목 번호 | 000010 |
+| MATNR | CHAR(18) | 자재 번호 | MAT-10001 |
+| WERKS | CHAR(4) | 플랜트 | 1100 |
+| LGORT | CHAR(4) | 저장 위치 | 0001 |
+| KWMENG | QUAN(13,3) | 주문 수량 | 100 |
+| VRKME | UNIT(3) | 판매 단위 | EA |
+| NETWR | CURR(15,2) | 품목 금액 | 500000 |
+| WAERK | CUKY(5) | 통화 | KRW |
+| ERDAT | DATS | 생성일 | 20260325 |
+
+
+</br>
+
+### 3. VBEP (Sales Document Schedule Line)
+- 판매 문서 품목(VBAP)의 납기 일정(Schedule Line: 납기일, 수량 등) 정보를 저장하는 SD 스케줄 라인 테이블
+
+```
+Sales Order Header (VBAK)  
+  ↓  
+Sales Order Item (VBAP)  
+  ↓  
+Schedule Line (VBEP)  
+  ↓  
+Delivery (LIKP / LIPS)  
+  ↓  
+Billing (VBRK / VBRP)
+
+ex)
+판매문서 : 6000001234  
+품목 : 000010  
+스케줄 라인 : 0001  
+납기일 : 20260401  
+납품 예정 수량 : 100 EA
+```
+
+| Field | Type | Description | Example |
+|------|------|-------------|---------|
+| MANDT | CLNT(3) | 클라이언트 | 100 |
+| VBELN | CHAR(10) | 판매 문서 번호 | 6000001234 |
+| POSNR | NUMC(6) | 판매 문서 품목 번호 | 000010 |
+| ETENR | NUMC(4) | 스케줄 라인 번호 | 0001 |
+| EINDT | DATS | 납기일 | 20260401 |
+| BMENG | QUAN(13,3) | 확정 수량 | 100 |
+| WMENG | QUAN(13,3) | 주문 수량 | 100 |
+| VRKME | UNIT(3) | 판매 단위 | EA |
+| WERKS | CHAR(4) | 플랜트 | 1100 |
+| LGORT | CHAR(4) | 저장 위치 | 0001 |
+| EDATU | DATS | 고객 요청 납기일 | 20260401 |
+
+
+</br>
+
+### 4. VBUK (Sales Document Header Status)
+- 판매 문서(Sales Order, Delivery, Billing 등)의 전체 상태(Status) 정보를 저장하는 SD 헤더 상태 테이블  
+(문서 처리 상태, 납품 상태, 청구 상태 등 판매 문서 진행 상태 관리)
+
+```
+Sales Order (VBAK / VBAP)  
+  ↓  
+Sales Document Status (VBUK)  
+  ↓  
+Delivery 생성 여부 판단  
+  ↓  
+Billing 가능 여부 판단
+
+ex)
+판매문서 : 6000001234  
+전체 상태 : C (완료)  
+납품 상태 : B (부분 납품)  
+청구 상태 : A (미청구)
+```
+
+| Field | Type | Description | Example |
+|------|------|-------------|---------|
+| MANDT | CLNT(3) | 클라이언트 | 100 |
+| VBELN | CHAR(10) | 판매 문서 번호 | 6000001234 |
+| GBSTK | CHAR(1) | 전체 처리 상태 | C |
+| LFSTK | CHAR(1) | 납품 상태 | B |
+| FKSTK | CHAR(1) | 청구 상태 | A |
+| UVALL | CHAR(1) | 전체 불완전 상태 | C |
+| UVVLK | CHAR(1) | 납품 관련 불완전 상태 | C |
+| UVFAK | CHAR(1) | 청구 관련 불완전 상태 | C |
+| COSTA | CHAR(1) | 비용 계산 상태 | C |
+| CMGST | CHAR(1) | 신용 상태 | A |
+
+
+</br>
+
+### 5. VBUP (Sales Document Item Status)
+- 판매 문서(Sales Order, Delivery 등)의 품목(Item) 단위 상태(Status) 정보를 저장하는 SD 상태 테이블  
+(품목별 납품 상태, 청구 상태, 처리 상태 등을 관리)
+
+```
+Sales Order Header (VBAK)  
+  ↓  
+Sales Order Item (VBAP)  
+  ↓  
+Item Status 관리 (VBUP)  
+  ↓  
+Delivery / Billing 진행 여부 판단
+
+ex)
+판매문서 : 6000001234  
+품목 : 000010  
+품목 처리 상태 : C (완료)  
+납품 상태 : B (부분 납품)  
+청구 상태 : A (미청구)
+```
+
+| Field | Type | Description | Example |
+|------|------|-------------|---------|
+| MANDT | CLNT(3) | 클라이언트 | 100 |
+| VBELN | CHAR(10) | 판매 문서 번호 | 6000001234 |
+| POSNR | NUMC(6) | 판매 문서 품목 번호 | 000010 |
+| GBSTA | CHAR(1) | 품목 전체 처리 상태 | C |
+| LFSTA | CHAR(1) | 납품 상태 | B |
+| FKSTA | CHAR(1) | 청구 상태 | A |
+| BESTA | CHAR(1) | 구매 상태 | C |
+| KOSTA | CHAR(1) | 비용 계산 상태 | C |
+| UVALL | CHAR(1) | 전체 불완전 상태 | C |
+| UVVLK | CHAR(1) | 납품 관련 불완전 상태 | C |
+
+</br>
+
+### 6. VBFA (Sales Document Flow)
+- SAP SD에서 판매 문서 간 연결 관계(문서 흐름)를 저장하는 테이블  
+(예: Sales Order → Delivery → Billing 간 문서 연결 추적)
+
+```
+Sales Order (VBAK / VBAP)  
+  ↓  
+Document Flow (VBFA)  
+  ↓  
+Delivery (LIKP / LIPS)  
+  ↓  
+Billing (VBRK / VBRP)
+
+ex)
+선행 문서 : 6000001234 (Sales Order)  
+후속 문서 : 8000005678 (Delivery)  
+
+선행 문서 : 8000005678 (Delivery)  
+후속 문서 : 9000004321 (Billing)
+```
+
+| Field | Type | Description | Example |
+|------|------|-------------|---------|
+| MANDT | CLNT(3) | 클라이언트 | 100 |
+| VBELV | CHAR(10) | 선행 문서 번호 (Preceding Document) | 6000001234 |
+| POSNV | NUMC(6) | 선행 문서 품목 번호 | 000010 |
+| VBELN | CHAR(10) | 후속 문서 번호 (Subsequent Document) | 8000005678 |
+| POSNN | NUMC(6) | 후속 문서 품목 번호 | 000010 |
+| VBTYP_V | CHAR(1) | 선행 문서 유형 | C |
+| VBTYP_N | CHAR(1) | 후속 문서 유형 | J |
+| ERDAT | DATS | 생성일 | 20260325 |
+| ERZET | TIMS | 생성 시간 | 103500 |
+| ERNAM | CHAR(12) | 생성 사용자 | SDUSER |
+
+</br>
+
+### 7. VBPA (Sales Document Partner)
+- 판매 문서(Sales Order, Delivery, Billing 등)에 연결된 파트너(고객, 배송처, 청구처 등) 정보를 저장하는 SD 파트너 테이블
+
+```
+Customer Master (KNA1)  
+  ↓  
+Sales Order 생성 (VBAK)  
+  ↓  
+Partner 정보 저장 (VBPA)  
+  ↓  
+Delivery / Billing 문서에도 동일 파트너 정보 사용
+
+ex)
+판매문서 : 6000001234  
+파트너 역할 : AG (Sold-to Party)  
+고객 : 200000  
+
+판매문서 : 6000001234  
+파트너 역할 : WE (Ship-to Party)  
+배송처 고객 : 200010
+```
+
+| Field | Type | Description | Example |
+|------|------|-------------|---------|
+| MANDT | CLNT(3) | 클라이언트 | 100 |
+| VBELN | CHAR(10) | 판매 문서 번호 | 6000001234 |
+| POSNR | NUMC(6) | 판매 문서 품목 번호 (000000 = 헤더) | 000000 |
+| PARVW | CHAR(2) | 파트너 역할 (AG 고객, WE 배송처 등) | AG |
+| KUNNR | CHAR(10) | 고객 번호 | 200000 |
+| LIFNR | CHAR(10) | 공급업체 번호 | 300000 |
+| PERNR | NUMC(8) | 담당 직원 번호 | 10000123 |
+| ADRNR | CHAR(10) | 주소 번호 | 50001234 |
+| LAND1 | CHAR(3) | 국가 코드 | KR |
+| ERDAT | DATS | 생성일 | 20260325 |
+
+</br>
+
+### 8. KONV (Pricing Conditions)
+- SAP SD에서 판매 문서 가격 조건(가격, 할인, 세금 등)을 저장하는 조건(Condition) 테이블
+
+```
+Sales Order (VBAK)
+      ↓
+Sales Item (VBAP)
+      ↓
+Pricing Condition (KONV)
+      ↓
+Billing (VBRK / VBRP)
+
+ex)
+판매문서 : 6000001234  
+품목 : 000010  
+
+조건  
+PR00 : 기본 가격 10,000 KRW  
+K007 : 고객 할인 -1,000 KRW  
+MWST : 세금 10%
+```
+
+| Field | Type | Description | Example |
+|------|------|-------------|---------|
+| MANDT | CLNT(3) | 클라이언트 | 100 |
+| KNUMV | CHAR(10) | 조건 문서 번호 (Pricing Document) | 0000123456 |
+| KPOSN | NUMC(6) | 판매 문서 품목 번호 | 000010 |
+| KSCHL | CHAR(4) | 조건 유형 (가격, 할인 등) | PR00 |
+| KBETR | DEC(11,2) | 조건 금액 (가격/할인 등) | 10000 |
+| KPEIN | DEC(5) | 가격 기준 수량 | 1 |
+| KMEIN | UNIT(3) | 가격 단위 | EA |
+| KWERT | CURR(15,2) | 조건 금액 값 | 100000 |
+| WAERS | CUKY(5) | 통화 | KRW |
+| KAWRT | CURR(15,2) | 조건 기준 금액 | 100000 |
+| KRECH | CHAR(1) | 계산 유형 | C |
+
+</br>
+
+### 1. 
+
+</br>
+
+### 1. 
+
+</br>
+
+### 1. 
+
+</br>
