@@ -712,7 +712,7 @@ ex)
 
 </br>
 
-### 2. SKB (Cost Element Master – Company Code Level)
+### 2. CSKB (Cost Element Master – Company Code Level)
 
 - 회사코드 기준으로 원가요소(Cost Element)의 설정(통화, 비용 관리 방식 등)을 저장하는 CO 마스터 테이블
 
