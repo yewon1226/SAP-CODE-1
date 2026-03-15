@@ -95,6 +95,8 @@
 
 ### Invoice (송장)
 
+| Table | Description |
+|------|-------------|
 | RBKP | 송장 문서 헤더 (Invoice Verification 문서 기본 정보) |
 | RSEG | 송장 문서 아이템 (송장 자재 및 금액 정보 관리) |
 
