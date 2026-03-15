@@ -1345,6 +1345,13 @@ BP 번호 : 100000
 유효기간 : 20200101 ~ 99991231
 ```
 
+```
+FLCU01 → Customer (SD)
+FLCU00 → Customer (FI)
+FLVN01 → Vendor (MM)
+FLVN00 → Vendor (FI)
+```
+
 | BP Role | Meaning |
 |--------|--------|
 | FLVN00 | Supplier (FI Vendor) |
@@ -2150,6 +2157,82 @@ ex)
 | ERDAT | DATS | 생성 날짜 | 20260301 |
 
 </br>
+
+### 6. QPAM (Inspection Characteristic Master)
+- 품질 검사에서 사용되는 검사 특성(Inspection Characteristic) 마스터 데이터를 저장하는 QM 테이블  
+(검사 항목 이름, 단위, 검사 방식 등 품질 검사 기준 정의)
+
+```
+Material Master (MARA)  
+  ↓  
+Inspection Setup (QMAT)  
+  ↓  
+Inspection Lot 생성 (QALS)  
+  ↓  
+Inspection Characteristic 정의 (QPAM)  
+  ↓  
+Inspection Result 입력 (QAMR / QAMV)
+
+ex)
+검사 특성 : 점도 검사  
+단위 : CPS  
+목표값 : 500  
+허용 범위 : 450 ~ 550
+```
+
+| Field | Type | Description | Example |
+|------|------|-------------|---------|
+| MANDT | CLNT(3) | 클라이언트 | 100 |
+| MERKNR | NUMC(4) | 검사 특성 번호 | 0001 |
+| KURZTEXT | CHAR(40) | 검사 특성 설명 | 점도 검사 |
+| ATNAM | CHAR(30) | 특성 이름 | VISCOSITY |
+| MSEHI | UNIT(3) | 측정 단위 | CPS |
+| SOLLWERT | DEC(13,3) | 목표 값 | 500 |
+| TOLERANZOB | DEC(13,3) | 상한 허용치 | 550 |
+| TOLERANZUN | DEC(13,3) | 하한 허용치 | 450 |
+| PRUEFART | CHAR(4) | 검사 유형 | 01 |
+| ERDAT | DATS | 생성일 | 20260325 |
+
+</br>
+
+### 7. # QPMK (Master Inspection Characteristic)
+- 품질 검사에서 사용하는 검사 특성(Master Inspection Characteristic, MIC) 정보를 저장하는 QM 핵심 마스터 테이블  
+(검사 항목 이름, 측정 단위, 목표값 등 품질 검사 기준 정의)
+
+```
+Material Master (MARA)  
+  ↓  
+Inspection Setup (QMAT)  
+  ↓  
+Inspection Characteristic Master (QPMK)  
+  ↓  
+Inspection Lot 생성 (QALS)  
+  ↓  
+Inspection Result 입력 (QAMR / QAMV)
+
+ex)
+검사 특성 : 점도 검사  
+MIC 번호 : MIC00001  
+단위 : CPS  
+목표값 : 500  
+허용 범위 : 450 ~ 550
+```
+
+| Field | Type | Description | Example |
+|------|------|-------------|---------|
+| MANDT | CLNT(3) | 클라이언트 | 100 |
+| MKNR | CHAR(8) | 검사 특성 번호 (MIC 번호) | MIC00001 |
+| KURZTEXT | CHAR(40) | 검사 특성 설명 | 점도 검사 |
+| ATNAM | CHAR(30) | 특성 이름 | VISCOSITY |
+| MSEHI | UNIT(3) | 측정 단위 | CPS |
+| SOLLWERT | DEC(13,3) | 목표 값 | 500 |
+| TOLERANZOB | DEC(13,3) | 상한 허용치 | 550 |
+| TOLERANZUN | DEC(13,3) | 하한 허용치 | 450 |
+| PRUEFART | CHAR(4) | 검사 유형 | 01 |
+| ERDAT | DATS | 생성일 | 20260325 |
+| ERNAM | CHAR(12) | 생성 사용자 | QMUSER |
+
+</br>
 </br>
 
 ---
@@ -2653,6 +2736,44 @@ MRP 요소 : PA (Planned Order)
 | AUFNR | CHAR(12) | 생산 오더 번호 | 5000012345 |
 
 </br>
+
+### 3. RESB (Reservation / Dependent Requirements)
+- 생산오더, MRP, 네트워크 등에서 자재가 사용될 예정인 예약(Reservation) 자재 정보를 저장하는 PP/MM 핵심 테이블  
+(어떤 오더에서 어떤 자재가 얼마 필요하고 어느 창고에서 사용할지 관리)
+
+```
+MRP 실행  
+      ↓  
+생산오더 생성 (AFKO / AFPO)  
+      ↓  
+필요 자재 예약 생성 (RESB)  
+      ↓  
+자재 출고 (MSEG / MATDOC)
+
+ex)
+생산오더 : 100000123456  
+필요 자재 : RM-10001 (원료)  
+필요 수량 : 50 KG  
+저장 위치 : 0001  
+출고 유형 : 261
+```
+
+| Field | Type | Description | Example |
+|------|------|-------------|---------|
+| MANDT | CLNT(3) | 클라이언트 | 100 |
+| RSNUM | NUMC(10) | 예약 번호 (Reservation Number) | 0001234567 |
+| RSPOS | NUMC(4) | 예약 품목 번호 | 0001 |
+| MATNR | CHAR(18) | 자재 번호 | RM-10001 |
+| WERKS | CHAR(4) | 플랜트 | 1100 |
+| LGORT | CHAR(4) | 저장 위치 | 0001 |
+| BDTER | DATS | 필요일 (Requirement Date) | 20260401 |
+| BDMNG | QUAN(13,3) | 요구 수량 | 50 |
+| MEINS | UNIT(3) | 기본 단위 | KG |
+| AUFNR | CHAR(12) | 생산오더 번호 | 100000123456 |
+| BWART | CHAR(3) | 이동 유형 | 261 |
+
+
+</br>
 </br>
 </br>
 
@@ -3041,52 +3162,464 @@ ex)
 
 </br>
 
-### 8. KONV (Pricing Conditions)
-- SAP SD에서 판매 문서 가격 조건(가격, 할인, 세금 등)을 저장하는 조건(Condition) 테이블
+### 8. VBKD (Sales Document Business Data)
+- 판매 문서(Sales Order 등)의 비즈니스 거래 정보(결제조건, Incoterms, 고객 주문번호 등)를 저장하는 SD 테이블
 
 ```
-Sales Order (VBAK)
-      ↓
-Sales Item (VBAP)
-      ↓
-Pricing Condition (KONV)
-      ↓
+Customer Master (KNA1)  
+  ↓  
+Sales Order 생성 (VBAK / VBAP)  
+  ↓  
+Business Data 저장 (VBKD)  
+  ↓  
+Delivery (LIKP / LIPS)  
+  ↓  
 Billing (VBRK / VBRP)
 
 ex)
 판매문서 : 6000001234  
-품목 : 000010  
-
-조건  
-PR00 : 기본 가격 10,000 KRW  
-K007 : 고객 할인 -1,000 KRW  
-MWST : 세금 10%
+고객 주문번호 : PO-90001  
+결제조건 : 0001 (30일 지급)  
+Incoterms : FOB BUSAN
 ```
 
 | Field | Type | Description | Example |
 |------|------|-------------|---------|
 | MANDT | CLNT(3) | 클라이언트 | 100 |
-| KNUMV | CHAR(10) | 조건 문서 번호 (Pricing Document) | 0000123456 |
+| VBELN | CHAR(10) | 판매 문서 번호 | 6000001234 |
+| POSNR | NUMC(6) | 판매 문서 품목 번호 (000000 = Header) | 000000 |
+| BSTKD | CHAR(35) | 고객 구매 주문 번호 | PO-90001 |
+| BSTDK | DATS | 고객 주문일 | 20260325 |
+| ZTERM | CHAR(4) | 지급 조건 (Payment Terms) | 0001 |
+| INCO1 | CHAR(3) | Incoterms 코드 | FOB |
+| INCO2 | CHAR(28) | Incoterms 위치 | BUSAN |
+| KDGRP | CHAR(2) | 고객 그룹 | 01 |
+| BZIRK | CHAR(6) | 영업 지역 | SEOUL |
+
+</br>
+
+### 9. PRCD_ELEMENTS (Pricing Condition Elements)
+- S/4HANA에서 판매 문서 및 청구 문서의 가격 조건(가격, 할인, 세금 등)을 저장하는 핵심 Pricing 테이블  
+(기존 ECC의 KONV 테이블을 대체)
+
+```
+Sales Order (VBAK / VBAP)  
+  ↓  
+Pricing Procedure 실행  
+  ↓  
+Pricing 결과 저장 (PRCD_ELEMENTS)  
+  ↓  
+Delivery / Billing 시 동일 가격 사용
+
+ex)
+판매문서 : 6000001234  
+품목 : 000010  
+
+조건)
+PR00 → 기본 가격 : 10,000 KRW  
+K007 → 고객 할인 : -1,000 KRW  
+MWST → 세금 : 10%
+```
+
+| Field | Type | Description | Example |
+|------|------|-------------|---------|
+| MANDT | CLNT(3) | 클라이언트 | 100 |
+| KNUMV | CHAR(10) | Pricing Document 번호 | 0000123456 |
 | KPOSN | NUMC(6) | 판매 문서 품목 번호 | 000010 |
-| KSCHL | CHAR(4) | 조건 유형 (가격, 할인 등) | PR00 |
-| KBETR | DEC(11,2) | 조건 금액 (가격/할인 등) | 10000 |
+| STUNR | NUMC(3) | 조건 단계 번호 (Pricing Step) | 010 |
+| ZAEHK | NUMC(2) | 조건 카운터 | 01 |
+| KSCHL | CHAR(4) | 조건 유형 (가격/할인/세금 등) | PR00 |
+| KBETR | CURR(11,2) | 조건 금액 (가격/할인율 등) | 10000 |
 | KPEIN | DEC(5) | 가격 기준 수량 | 1 |
 | KMEIN | UNIT(3) | 가격 단위 | EA |
 | KWERT | CURR(15,2) | 조건 금액 값 | 100000 |
 | WAERS | CUKY(5) | 통화 | KRW |
 | KAWRT | CURR(15,2) | 조건 기준 금액 | 100000 |
-| KRECH | CHAR(1) | 계산 유형 | C |
+| KRECH | CHAR(1) | 계산 유형 (금액/퍼센트 등) | C |
+| KOAID | CHAR(1) | 조건 계정 키 | ERL |
+| KSTAT | CHAR(1) | 통계 조건 여부 | X |
+| KINAK | CHAR(1) | 조건 비활성 여부 |  |
+| ERDAT | DATS | 생성일 | 20260325 |
+| ERNAM | CHAR(12) | 생성 사용자 | SDUSER |
+
+</br>
+</br>
+</br>
+
+## < Delivery (출고 / 배송) >
+
+### 1. LIKP (Delivery Document Header)
+- 출고/배송 문서(Delivery)의 헤더 정보를 저장하는 SD 핵심 테이블  
+(출고 문서 번호, 출고일, 배송처, 배송 상태 등 관리)
+
+```
+Sales Order (VBAK / VBAP)  
+      ↓  
+Delivery 생성 (LIKP / LIPS)  
+      ↓  
+Goods Issue (출고 처리)  
+      ↓  
+Billing (VBRK / VBRP)
+
+ex)
+판매오더 : 6000001234  
+배송문서 : 8000001234  
+출하지점 : 1000  
+출고일 : 20260326
+```
+
+| Field | Type | Description | Example |
+|------|------|-------------|---------|
+| MANDT | CLNT(3) | 클라이언트 | 100 |
+| VBELN | CHAR(10) | 배송 문서 번호 (Delivery Number) | 8000001234 |
+| ERDAT | DATS | 문서 생성일 | 20260325 |
+| ERNAM | CHAR(12) | 생성 사용자 | SDUSER |
+| LFART | CHAR(4) | 배송 문서 유형 | LF |
+| VSTEL | CHAR(4) | 출하지점 (Shipping Point) | 1000 |
+| VKORG | CHAR(4) | 판매 조직 | 1000 |
+| VTWEG | CHAR(2) | 유통 채널 | 10 |
+| SPART | CHAR(2) | 제품군 | 00 |
+| KUNNR | CHAR(10) | 배송 고객 (Ship-to Party) | 200000 |
+| WADAT | DATS | 실제 출고일 | 20260326 |
 
 </br>
 
-### 1. 
+### 2. LIPS (Delivery Document Item)
+- 출고/배송 문서(Delivery)의 품목(Item) 정보를 저장하는 SD 핵심 테이블  
+(출고 자재, 출고 수량, 플랜트, 저장위치 등 배송 상세 데이터 관리)
+
+```
+Sales Order (VBAK / VBAP)  
+  ↓  
+Delivery 생성  
+  ↓  
+Delivery Header (LIKP)  
+  ↓  
+Delivery Item (LIPS)  
+  ↓  
+Goods Issue (재고 감소, MATDOC)
+
+ex)
+판매오더 : 6000001234  
+배송문서 : 8000001234  
+품목 : 000010  
+자재 : FG-10001  
+출고 수량 : 100 EA  
+플랜트 : 1100
+```
+
+| Field | Type | Description | Example |
+|------|------|-------------|---------|
+| MANDT | CLNT(3) | 클라이언트 | 100 |
+| VBELN | CHAR(10) | 배송 문서 번호 (Delivery Number) | 8000001234 |
+| POSNR | NUMC(6) | 배송 문서 품목 번호 | 000010 |
+| MATNR | CHAR(18) | 자재 번호 | FG-10001 |
+| WERKS | CHAR(4) | 플랜트 | 1100 |
+| LGORT | CHAR(4) | 저장 위치 | 0001 |
+| LFIMG | QUAN(13,3) | 실제 출고 수량 | 100 |
+| VRKME | UNIT(3) | 판매 단위 | EA |
+| CHARG | CHAR(10) | Batch 번호 | BATCH-01 |
+| BWART | CHAR(3) | 이동 유형 (Movement Type) | 601 |
+| VGBEL | CHAR(10) | 선행 문서 번호 (Sales Order) | 6000001234 |
+| VGPOS | NUMC(6) | 선행 문서 품목 번호 | 000010 |
+
+</br>
+</br>
+</br>
+
+## < Billing (청구) >
+
+### 1. VBRK (Billing Document Header)
+- 청구 문서(Billing / Invoice)의 헤더 정보를 저장하는 SD 핵심 테이블  
+(청구 문서 번호, 고객, 청구일, 통화 등 청구 문서 기본 정보 관리)
+
+```
+Sales Order (VBAK / VBAP)  
+  ↓  
+Delivery (LIKP / LIPS)  
+  ↓  
+Billing 생성 (VBRK / VBRP)
+
+ex)
+판매오더 : 6000001234  
+배송문서 : 8000001234  
+청구문서 : 9000001234  
+청구일 : 20260326  
+총 금액 : 1,500,000 KRW
+```
+
+| Field | Type | Description | Example |
+|------|------|-------------|---------|
+| MANDT | CLNT(3) | 클라이언트 | 100 |
+| VBELN | CHAR(10) | 청구 문서 번호 (Billing Document) | 9000001234 |
+| FKART | CHAR(4) | 청구 문서 유형 | F2 |
+| FKDAT | DATS | 청구일 (Billing Date) | 20260326 |
+| ERDAT | DATS | 문서 생성일 | 20260326 |
+| ERNAM | CHAR(12) | 생성 사용자 | SDUSER |
+| KUNRG | CHAR(10) | 청구 고객 (Payer) | 200000 |
+| VKORG | CHAR(4) | 판매 조직 | 1000 |
+| VTWEG | CHAR(2) | 유통 채널 | 10 |
+| SPART | CHAR(2) | 제품군 | 00 |
+| WAERK | CUKY(5) | 통화 | KRW |
+| NETWR | CURR(15,2) | 총 청구 금액 | 1500000 |
 
 </br>
 
-### 1. 
+### 2. VBRP (Billing Document Item)
+- 청구 문서(Billing / Invoice)의 품목(Item) 정보를 저장하는 SD 핵심 테이블  
+(청구 자재, 청구 수량, 금액 등 청구 상세 데이터 관리)
+
+```
+Sales Order (VBAK / VBAP)  
+      ↓  
+Delivery (LIKP / LIPS)  
+      ↓  
+Billing Header (VBRK)  
+      ↓  
+Billing Item (VBRP)
+
+ex)
+판매오더 : 6000001234  
+배송문서 : 8000001234  
+청구문서 : 9000001234  
+자재 : FG-10001  
+청구 수량 : 100 EA  
+품목 금액 : 500,000 KRW
+```
+
+| Field | Type | Description | Example |
+|------|------|-------------|---------|
+| MANDT | CLNT(3) | 클라이언트 | 100 |
+| VBELN | CHAR(10) | 청구 문서 번호 (Billing Document) | 9000001234 |
+| POSNR | NUMC(6) | 청구 문서 품목 번호 | 000010 |
+| MATNR | CHAR(18) | 자재 번호 | FG-10001 |
+| FKIMG | QUAN(13,3) | 청구 수량 | 100 |
+| VRKME | UNIT(3) | 판매 단위 | EA |
+| NETWR | CURR(15,2) | 품목 금액 | 500000 |
+| WAERK | CUKY(5) | 통화 | KRW |
+| VGBEL | CHAR(10) | 선행 문서 번호 (Delivery) | 8000001234 |
+| VGPOS | NUMC(6) | 선행 문서 품목 번호 | 000010 |
+| AUBEL | CHAR(10) | 판매 문서 번호 (Sales Order) | 6000001234 |
+| AUPOS | NUMC(6) | 판매 문서 품목 번호 | 000010 |
+
+</br>
+</br>
+</br>
+
+## < Customer Master (고객 마스터) >
+
+### 1. KNA1 (Customer Master General Data)
+- 고객(Customer)의 일반 마스터 데이터(이름, 주소, 국가 등 기본 정보)를 저장하는 SD/FI 공통 고객 마스터 테이블
+
+```
+Customer Master 생성 (KNA1)  
+      ↓  
+Sales Order 생성 (VBAK / VBAP)  
+      ↓  
+Delivery (LIKP / LIPS)  
+      ↓  
+Billing (VBRK / VBRP)
+
+ex)
+고객 번호 : 200000  
+고객 이름 : ABC COSMETIC  
+국가 : KR  
+도시 : SEOUL
+```
+
+| Field | Type | Description | Example |
+|------|------|-------------|---------|
+| MANDT | CLNT(3) | 클라이언트 | 100 |
+| KUNNR | CHAR(10) | 고객 번호 | 200000 |
+| NAME1 | CHAR(35) | 고객 이름 | ABC COSMETIC |
+| NAME2 | CHAR(35) | 고객 이름2 | ABC Korea |
+| ORT01 | CHAR(35) | 도시 | SEOUL |
+| LAND1 | CHAR(3) | 국가 코드 | KR |
+| REGIO | CHAR(3) | 지역 | 11 |
+| PSTLZ | CHAR(10) | 우편번호 | 06236 |
+| STRAS | CHAR(35) | 주소 | Teheran-ro 123 |
+| TELF1 | CHAR(16) | 전화번호 | 0212345678 |
+| STCD1 | CHAR(16) | 사업자 등록번호 | 1234567890 |
+| ERDAT | DATS | 생성일 | 20260325 |
+| ERNAM | CHAR(12) | 생성 사용자 | SDUSER |
+
 
 </br>
 
-### 1. 
+### 2. KNB1 (Customer Company Code Data)
+- 고객(Customer)의 회사코드 기준 회계 정보(지급 조건, 채권 계정 등)를 저장하는 FI 테이블이며 SD에서 Billing 후 FI 전표 생성 시 고객 회계 데이터를 참조할 때 사용됨
+
+```
+Customer Master (KNA1)  
+  ↓  
+Sales Area Data (KNVV)  
+  ↓  
+Billing 생성 (VBRK / VBRP)  
+  ↓  
+FI 전표 생성 시 고객 회계 정보 참조 (KNB1)  
+  ↓  
+Accounting Document (BKPF / BSEG)
+
+ex)
+고객 : 200000  
+회사코드 : 1000  
+지급조건 : 0001 (30일 지급)  
+채권 계정 : 110000
+```
+
+| Field | Type | Description | Example |
+|------|------|-------------|---------|
+| MANDT | CLNT(3) | 클라이언트 | 100 |
+| KUNNR | CHAR(10) | 고객 번호 | 200000 |
+| BUKRS | CHAR(4) | 회사코드 | 1000 |
+| AKONT | CHAR(10) | 고객 채권 G/L 계정 (Recon Account) | 110000 |
+| ZTERM | CHAR(4) | 지급 조건 (Payment Terms) | 0001 |
+| ZUAWA | CHAR(3) | 정산 키 | 001 |
+| BUSAB | CHAR(4) | 사업 영역 | 1000 |
+| FDGRV | CHAR(4) | 신용 관리 그룹 | 0001 |
+| ALTKN | CHAR(10) | 이전 고객 번호 | 200000 |
+| ERDAT | DATS | 생성일 | 20260325 |
 
 </br>
+
+### 3. KNVV (Customer Master Sales Area Data)
+- 고객(Customer)의 판매영역(Sales Area) 기준 판매 정보를 저장하는 SD 고객 마스터 테이블  
+(판매조직, 유통채널, 가격그룹, 배송조건 등 판매 관련 데이터 관리)
+
+```
+Customer Master 생성  
+  ↓  
+General Data (KNA1)  
+  ↓  
+Company Code Data (KNB1)  
+  ↓  
+Sales Area Data (KNVV)  
+  ↓  
+Sales Order 생성 (VBAK / VBAP)
+
+ex)
+고객 : 200000  
+판매조직 : 1000  
+유통채널 : 10  
+제품군 : 00  
+배송조건 : 01
+```
+
+| Field | Type | Description | Example |
+|------|------|-------------|---------|
+| MANDT | CLNT(3) | 클라이언트 | 100 |
+| KUNNR | CHAR(10) | 고객 번호 | 200000 |
+| VKORG | CHAR(4) | 판매 조직 | 1000 |
+| VTWEG | CHAR(2) | 유통 채널 | 10 |
+| SPART | CHAR(2) | 제품군 | 00 |
+| KDGRP | CHAR(2) | 고객 그룹 | 01 |
+| BZIRK | CHAR(6) | 영업 지역 | SEOUL |
+| VSBED | CHAR(2) | 배송 조건 | 01 |
+| WAERS | CUKY(5) | 통화 | KRW |
+| KALKS | CHAR(1) | 가격 결정 절차 | A |
+| ZTERM | CHAR(4) | 지급 조건 | 0001 |
+
+</br>
+
+### 4. BUT000 (Business Partner General Data)
+- SAP S/4HANA에서 Business Partner(BP)의 기본 정보(이름, 유형, 생성일 등)를 저장하는 핵심 BP 마스터 테이블  
+(Customer, Vendor 등 모든 비즈니스 파트너의 기본 데이터를 관리)
+
+```
+Business Partner 생성 (BUT000)  
+  ↓  
+BP 주소 정보 (BUT020)  
+  ↓  
+BP 역할 설정 (BUT100)  
+  ↓  
+Customer / Vendor 연결  
+  ↓  
+SD / MM / FI에서 사용
+
+ex)
+BP 번호 : 300000  
+유형 : Organization  
+회사 이름 : ABC COSMETIC  
+생성일 : 20260325
+```
+
+| Field | Type | Description | Example |
+|------|------|-------------|---------|
+| MANDT | CLNT(3) | 클라이언트 | 100 |
+| PARTNER | CHAR(10) | Business Partner 번호 | 300000 |
+| TYPE | CHAR(1) | BP 유형 (Person/Organization/Group) | 2 |
+| BU_GROUP | CHAR(4) | BP 그룹 | Z001 |
+| NAME_ORG1 | CHAR(40) | 회사 이름 | ABC COSMETIC |
+| NAME_ORG2 | CHAR(40) | 회사 이름2 | ABC Korea |
+| NAME_FIRST | CHAR(40) | 이름 | JAEHWAN |
+| NAME_LAST | CHAR(40) | 성 | KIM |
+| BIRTHDT | DATS | 생년월일 | 19980101 |
+| BU_SORT1 | CHAR(20) | 검색 키 | ABC |
+| ERDAT | DATS | 생성일 | 20260325 |
+| ERNAM | CHAR(12) | 생성 사용자 | SAPUSER |
+
+</br>
+
+### 5. BUT020 (Business Partner Address Data)
+- Business Partner(BP)의 주소 정보(주소 번호, 주소 유형 등)를 저장하는 BP 주소 테이블  
+(BP 기본 정보 BUT000과 연결되어 실제 주소 데이터를 관리)
+
+```
+Business Partner 생성 (BUT000)  
+  ↓  
+주소 정보 저장 (BUT020)  
+  ↓  
+실제 주소 상세 (ADRC 테이블)  
+  ↓  
+Customer / Vendor 문서에서 주소 사용
+
+ex)
+BP 번호 : 300000  
+주소 번호 : 0000123456  
+기본 주소 : X  
+유효 기간 : 20260301 ~ 99991231
+```
+
+| Field | Type | Description | Example |
+|------|------|-------------|---------|
+| MANDT | CLNT(3) | 클라이언트 | 100 |
+| PARTNER | CHAR(10) | Business Partner 번호 | 300000 |
+| ADDRNUMBER | CHAR(10) | 주소 번호 | 0000123456 |
+| ADDRTYPE | CHAR(1) | 주소 유형 | 1 |
+| VALID_FROM | DATS | 주소 유효 시작일 | 20260301 |
+| VALID_TO | DATS | 주소 유효 종료일 | 99991231 |
+| STDADDRESS | CHAR(1) | 기본 주소 여부 | X |
+| XDFADR | CHAR(1) | 주소 삭제 플래그 |  |
+| ERDAT | DATS | 생성일 | 20260325 |
+| ERNAM | CHAR(12) | 생성 사용자 | SAPUSER |
+
+</br>
+
+### 6. BUT100 (Business Partner Role)
+- Business Partner(BP)에 부여된 역할(Role: Customer, Vendor 등) 정보를 저장하는 BP 역할 테이블  
+(BP가 어떤 비즈니스 역할을 수행하는지 관리)
+
+```
+Business Partner 생성 (BUT000)  
+  ↓  
+BP 주소 정보 (BUT020)  
+  ↓  
+BP 역할 설정 (BUT100)  
+  ↓  
+Customer / Vendor 마스터 생성
+
+ex)
+BP 번호 : 300000  
+역할 : FLCU01 (Customer)  
+유효 기간 : 20260301 ~ 99991231
+```
+
+| Field | Type | Description | Example |
+|------|------|-------------|---------|
+| MANDT | CLNT(3) | 클라이언트 | 100 |
+| PARTNER | CHAR(10) | Business Partner 번호 | 300000 |
+| RLTYP | CHAR(6) | BP 역할 유형 | FLCU01 |
+| VALID_FROM | DATS | 역할 유효 시작일 | 20260301 |
+| VALID_TO | DATS | 역할 유효 종료일 | 99991231 |
+| ERDAT | DATS | 생성일 | 20260325 |
+| ERNAM | CHAR(12) | 생성 사용자 | SAPUSER |
