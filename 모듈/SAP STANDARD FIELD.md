@@ -2195,7 +2195,7 @@ ex)
 
 </br>
 
-### 7. # QPMK (Master Inspection Characteristic)
+### 7. QPMK (Master Inspection Characteristic)
 - 품질 검사에서 사용하는 검사 특성(Master Inspection Characteristic, MIC) 정보를 저장하는 QM 핵심 마스터 테이블  
 (검사 항목 이름, 측정 단위, 목표값 등 품질 검사 기준 정의)
 
