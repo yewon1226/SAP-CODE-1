@@ -71,4 +71,4 @@ ENDCLASS.
 </br>
 </br>
 
-<img width="1152" height="612" alt="image" src="https://github.com/user-attachments/assets/91354dfe-d08b-4aab-bab5-9b3f16c53cfd" />
+<img width="642" height="341" alt="image" src="https://github.com/user-attachments/assets/64d263d6-a583-4bbf-9ce0-fbd4ff70b78a" />
