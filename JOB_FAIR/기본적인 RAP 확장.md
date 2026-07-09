@@ -76,3 +76,25 @@ ENDCLASS.
 </br>
 
 <img width="747" height="281" alt="image" src="https://github.com/user-attachments/assets/ade5b655-de3c-4fe3-a949-d0fd3983b923" />
+</br>
+</br>
+
+- 삭제 전에 디버그가 열림
+```abap
+sap.ui.define(['sap/ui/core/mvc/ControllerExtension'], function (ControllerExtension) {
+	'use strict';
+
+	return ControllerExtension.extend('zcl2feapp03.ext.controller.ListReportExt', {
+		override: {
+			onInit: function () {
+				var oModel = this.base.getExtensionAPI().getModel();
+			},
+			editFlow: {
+                onBeforeDelete: function() {
+                    debugger;
+                }
+            }
+		}
+	});
+});
+```
