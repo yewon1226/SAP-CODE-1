@@ -159,4 +159,4 @@ sap.ui.define(['sap/ui/core/mvc/ControllerExtension'], function (ControllerExten
 ```
 
 
-<img width="755" height="202" alt="image" src="https://github.com/user-attachments/assets/98bf402a-7d74-4a04-a2f7-653448e3ac1f" />
+<img width="755" height="502" alt="image" src="https://github.com/user-attachments/assets/98bf402a-7d74-4a04-a2f7-653448e3ac1f" />
