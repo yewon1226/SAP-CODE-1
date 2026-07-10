@@ -138,6 +138,8 @@ sap.ui.define(['sap/ui/core/mvc/ControllerExtension'], function (ControllerExten
 차변 합계 = 대변 합계
 ```
 
+</br>
+
 - 예시 1
 
 | 차변(Debit) | 금액 | 대변(Credit) | 금액 |
