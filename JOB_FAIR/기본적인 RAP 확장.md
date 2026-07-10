@@ -130,6 +130,7 @@ sap.ui.define(['sap/ui/core/mvc/ControllerExtension'], function (ControllerExten
 - 차변 1개 / 대변 3개 가능
 - 차변 2개 / 대변 1개 가능
 
+</br>
 
 2. 금액의 합은 반드시 일치해야 한다.
 
