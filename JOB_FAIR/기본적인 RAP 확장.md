@@ -105,7 +105,7 @@ sap.ui.define(['sap/ui/core/mvc/ControllerExtension'], function (ControllerExten
 
 ## 07/10 - FI
 
-### 계정 종류
+### < 계정 종류 >
 
 | 구분 | 의미 |
 |------|------|
@@ -115,7 +115,7 @@ sap.ui.define(['sap/ui/core/mvc/ControllerExtension'], function (ControllerExten
 
 </br>
 
-### 전표 구성
+### < 전표 구성 >
 - **차변 (Debit)** : `+`
 - **대변 (Credit)** : `-`
 
@@ -123,7 +123,7 @@ sap.ui.define(['sap/ui/core/mvc/ControllerExtension'], function (ControllerExten
 
 </br>
 
-### 전표 작성 원칙
+### < 전표 작성 원칙 >
 
 1. 계정 수는 같을 필요가 없다.
 
